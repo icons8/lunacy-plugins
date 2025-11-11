@@ -65,6 +65,7 @@ await axios.post('http://localhost:31415/showtoast', {
 ```
 
 **Fields:**
+
 - `text` (string, required) - Message to display
 - `iconType` (number) - Icon type from table above (default: 0)
 - `priority` (number) - Priority level, higher shows first (default: 5)
@@ -102,6 +103,7 @@ Plugin registers UI definition via API, Lunacy renders interactive dialog.
 ### Overview
 
 **Architecture:**
+
 ```
 Plugin → POST /registerui → Lunacy displays dialog
 Plugin ← WebSocket events ← User interacts with UI
@@ -110,6 +112,7 @@ Plugin → POST /unregisterui → Close dialog
 ```
 
 **Key Components:**
+
 - **Service plugins** - MUST use WebSocket for UI lifecycle events
 - **Utility plugins** - Can use WebSocket or polling (WebSocket recommended)
 - **Field types** - 9 field types available (text, number, slider, etc.)
@@ -167,6 +170,7 @@ Plugin → POST /unregisterui → Close dialog
 ```
 
 **Important Notes:**
+
 1. **Register UI only AFTER `plugin_initialized` event**
 2. **Always unregister UI** when done (cleanup)
 3. **Listen to `show_ui`/`close_ui` events** for proper lifecycle handling
@@ -181,6 +185,7 @@ Plugin → POST /unregisterui → Close dialog
 Register plugin UI definition.
 
 **Request:**
+
 ```json
 {
   "pluginId": "my-plugin",
@@ -215,11 +220,13 @@ Register plugin UI definition.
 Retrieve current field values from UI.
 
 **Request Body:**
+
 ```json
 "my-plugin"
 ```
 
 **Response:**
+
 ```json
 {
   "format": "PNG",
@@ -234,6 +241,7 @@ Retrieve current field values from UI.
 Update field values programmatically while UI is open.
 
 **Request:**
+
 ```json
 {
   "pluginId": "my-plugin",
@@ -245,6 +253,7 @@ Update field values programmatically while UI is open.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -253,6 +262,7 @@ Update field values programmatically while UI is open.
 ```
 
 **Use Cases:**
+
 - Apply presets (change all fields at once)
 - Sync dependent fields automatically
 - Reset preset to "Custom" when user changes value
@@ -263,6 +273,7 @@ Update field values programmatically while UI is open.
 Clean up and close UI.
 
 **Request:**
+
 ```json
 "my-plugin"
 ```
@@ -282,6 +293,7 @@ const ws = new WebSocket('ws://localhost:31416');
 ### Plugin Registration
 
 **Send after connecting (required):**
+
 ```json
 {
   "type": "plugin_register",
@@ -290,6 +302,7 @@ const ws = new WebSocket('ws://localhost:31416');
 ```
 
 **Lunacy responds with:**
+
 ```json
 {
   "type": "plugin_initialized",
@@ -302,6 +315,7 @@ const ws = new WebSocket('ws://localhost:31416');
 ### UI Lifecycle Events
 
 **show_ui** - Dialog opened by user:
+
 ```json
 {
   "type": "show_ui",
@@ -311,6 +325,7 @@ const ws = new WebSocket('ws://localhost:31416');
 ```
 
 **close_ui** - Dialog closed by user:
+
 ```json
 {
   "type": "close_ui",
@@ -322,6 +337,7 @@ const ws = new WebSocket('ws://localhost:31416');
 **ui_field_event** - User interacted with field:
 
 Button click:
+
 ```json
 {
   "type": "ui_field_event",
@@ -333,6 +349,7 @@ Button click:
 ```
 
 Value change:
+
 ```json
 {
   "type": "ui_field_event",
@@ -345,6 +362,7 @@ Value change:
 ```
 
 **Event Types:**
+
 - `"click"` - Button clicks
 - `"value_change"` - Field value changes (text, number, slider, checkbox, select)
 
@@ -369,6 +387,7 @@ Single-line or multi-line text input.
 ```
 
 **Properties:**
+
 - `id` (string, required)
 - `type` = "text"
 - `label` (string, required)
@@ -399,6 +418,7 @@ Numeric input with constraints, supports math expressions.
 ```
 
 **Properties:**
+
 - `id` (string, required)
 - `type` = "number"
 - `label` (string, required)
@@ -409,6 +429,7 @@ Numeric input with constraints, supports math expressions.
 - `description` (string) - Tooltip on hover
 
 **Features:**
+
 - Supports decimal precision (up to 10 places)
 - Allows math expressions: "10*2", "50/4"
 - Enforces min/max boundaries
@@ -437,6 +458,7 @@ Combined slider + numeric input for visual parameter adjustment.
 ```
 
 **Properties:**
+
 - `id` (string, required)
 - `type` = "slider"
 - `label` (string, required)
@@ -447,6 +469,7 @@ Combined slider + numeric input for visual parameter adjustment.
 - `description` (string) - Tooltip on hover
 
 **Behavior:**
+
 - Dual control: Slider (left) + NumericBox (right)
 - Both controls stay synchronized
 - Slider provides visual feedback
@@ -473,6 +496,7 @@ Boolean checkbox.
 ```
 
 **Properties:**
+
 - `id` (string, required)
 - `type` = "checkbox"
 - `label` (string, required)
@@ -499,6 +523,7 @@ Dropdown menu with predefined options.
 ```
 
 **Properties:**
+
 - `id` (string, required)
 - `type` = "select"
 - `label` (string, required)
@@ -524,6 +549,7 @@ Clickable button that sends events.
 ```
 
 **Properties:**
+
 - `id` (string, required)
 - `type` = "button"
 - `label` (string, required) - Button text
@@ -550,6 +576,7 @@ Hyperlink-styled button that opens URLs.
 ```
 
 **Properties:**
+
 - `id` (string, required)
 - `type` = "linkButton"
 - `label` (string, required) - Link text
@@ -557,6 +584,7 @@ Hyperlink-styled button that opens URLs.
 - `description` (string) - Tooltip on hover
 
 **Behavior:**
+
 - Opens URL in default browser
 - No event sent to plugin (handled by Lunacy)
 - URL is automatically decoded
@@ -578,12 +606,14 @@ Read-only static text display.
 ```
 
 **Properties:**
+
 - `type` = "label"
 - `value` (string) - Text to display
 - `description` (string) - Tooltip on hover
 - `id` not required (not interactive)
 
 **Behavior:**
+
 - Static, non-editable text
 - Automatic text wrapping
 - Adapts to light/dark theme
@@ -591,6 +621,7 @@ Read-only static text display.
 **When to use:** Version info, warnings, descriptions, static context.
 
 **Multi-line example:**
+
 ```json
 {
   "type": "label",
@@ -612,6 +643,7 @@ Visual separator (horizontal line).
 ```
 
 **Properties:**
+
 - `type` = "separator"
 - `label` (string, optional) - Section title
 - `id` not required
@@ -968,6 +1000,7 @@ if __name__ == "__main__":
 ### ❌ Registering UI Too Early
 
 **Incorrect:**
+
 ```python
 def main():
     register_ui()  # TOO EARLY!
@@ -975,6 +1008,7 @@ def main():
 ```
 
 **Correct:**
+
 ```python
 async def handle_websocket():
     async with websockets.connect(WS_URL) as ws:
@@ -991,11 +1025,13 @@ async def handle_websocket():
 ### ❌ Wrong Event Field Names
 
 **Incorrect:**
+
 ```json
 { "event": "show_ui", "pluginId": "..." }
 ```
 
 **Correct:**
+
 ```json
 { "type": "show_ui", "pluginId": "..." }
 ```
@@ -1007,11 +1043,13 @@ All events use `"type"` field, not `"event"`.
 ### ❌ Wrong HTTP Method for getpluginuivalues
 
 **Incorrect:**
+
 ```python
 response = requests.get(f"{API}/getpluginuivalues?pluginId={PLUGIN_ID}")
 ```
 
 **Correct:**
+
 ```python
 response = requests.post(f"{API}/getpluginuivalues", json=PLUGIN_ID)
 ```
@@ -1023,12 +1061,14 @@ Use POST with pluginId in body, not GET with query string.
 ### ❌ Not Parsing Values
 
 **Incorrect:**
+
 ```javascript
 const quality = values.quality;  // String "80"
 if (quality > 50) { ... }  // String comparison!
 ```
 
 **Correct:**
+
 ```javascript
 const quality = parseFloat(values.quality);  // Number 80
 if (quality > 50) { ... }  // Numeric comparison
@@ -1041,12 +1081,14 @@ All field values are strings - always parse numbers/booleans.
 ### ❌ Not Unregistering UI
 
 **Incorrect:**
+
 ```javascript
 await processValues();
 process.exit(0);  // Dialog stays open!
 ```
 
 **Correct:**
+
 ```javascript
 try {
   await processValues();
@@ -1062,6 +1104,7 @@ Always cleanup UI before exiting.
 ### ❌ Not Checking eventType
 
 **Incorrect:**
+
 ```javascript
 if (fieldId === 'apply') {
   doSomething();
@@ -1069,6 +1112,7 @@ if (fieldId === 'apply') {
 ```
 
 **Correct:**
+
 ```javascript
 if (fieldId === 'apply' && eventType === 'click') {
   doSomething();
@@ -1082,12 +1126,14 @@ Always verify both `fieldId` and `eventType`.
 ### ❌ PluginId Mismatch
 
 **Incorrect:**
+
 ```javascript
 await axios.post(`${API}/registerui`, { pluginId: 'my-plugin', ... });
 const values = await axios.post(`${API}/getpluginuivalues`, "myPlugin");  // Mismatch!
 ```
 
 **Correct:**
+
 ```javascript
 const PLUGIN_ID = 'my-plugin';
 await axios.post(`${API}/registerui`, { pluginId: PLUGIN_ID, ... });

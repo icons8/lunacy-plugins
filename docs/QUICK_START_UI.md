@@ -7,6 +7,7 @@ If you haven't created a basic plugin yet, start with [QUICK_START.md](./QUICK_S
 ## What You'll Build
 
 A **Smart Duplicate** plugin that:
+
 - Opens an interactive dialog with input fields
 - Lets users choose patterns: Grid, Circle, Wave, Spiral
 - Duplicates selected layers with the chosen transformation
@@ -40,6 +41,7 @@ API:    /registerui, /getpluginuivalues, /showtoast, /duplicatelayers
 ## Prerequisites
 
 Same as [QUICK_START.md](./QUICK_START.md), plus:
+
 - Understanding of async/await patterns
 - Basic WebSocket knowledge helpful (but not required)
 
@@ -48,6 +50,7 @@ Same as [QUICK_START.md](./QUICK_START.md), plus:
 Choose **one** language below. All implementations are fully working and tested.
 
 **Language Comparison:**
+
 - **Node.js** - Fast development, good performance, minimal setup
 - **Python** - Easy to read, great for prototyping, extensive libraries
 - **C#** - Best performance when compiled, strongly typed, modern features
@@ -950,6 +953,7 @@ if __name__ == "__main__":
 ```
 
 **Key Python Features:**
+
 - **asyncio/websockets** - Modern async WebSocket handling with `async with` and `async for`
 - **requests** - Simple synchronous HTTP calls for API
 - **math module** - Trigonometric functions for position calculations
@@ -1550,6 +1554,7 @@ internal sealed partial class SmartDuplicateJsonContext : JsonSerializerContext
 ```
 
 **Key C# Features:**
+
 - **JsonSourceGenerationOptions** - AOT-compatible JSON serialization (zero reflection)
 - **Nullable reference types** - Proper `?` handling throughout
 - **Collection expressions** - `[]` syntax for arrays
@@ -1560,6 +1565,7 @@ internal sealed partial class SmartDuplicateJsonContext : JsonSerializerContext
 ### 5. Test the Plugin
 
 **Development Mode (dotnet run):**
+
 ```bash
 # Test directly (slower startup, no build needed)
 dotnet run
@@ -1584,6 +1590,7 @@ dotnet build -c Release
 ```
 
 **Update `plugin.jsonc` to use compiled binary:**
+
 ```jsonc
 {
   "id": "smart-duplicate-csharp",
@@ -1602,6 +1609,7 @@ dotnet build -c Release
 ```
 
 **Performance Comparison:**
+
 - `dotnet run` - ~2-3 seconds startup (includes build check)
 - Compiled binary - ~100-200ms startup (instant)
 
@@ -1642,12 +1650,14 @@ close_ui           → User closed dialog
 ### 4. Position Calculation Patterns
 
 **Grid:** Regular rectangular grid
+
 ```javascript
 offsetX = col * (layerWidth + spacingX)
 offsetY = row * (layerHeight + spacingY)
 ```
 
 **Circle:** Objects arranged on circle perimeter
+
 ```javascript
 angle = (2π * i) / count
 offsetX = radius * cos(angle)
@@ -1655,12 +1665,14 @@ offsetY = radius * sin(angle)
 ```
 
 **Wave:** Sinusoidal vertical offset
+
 ```javascript
 offsetX = i * horizontalSpacing
 offsetY = amplitude * sin(2π * i / count)
 ```
 
 **Spiral:** Expanding radius circle
+
 ```javascript
 radius = radiusIncrement * i
 offsetX = radius * cos(angle)
@@ -1702,21 +1714,25 @@ process.on('SIGTERM', async () => {
 ## Troubleshooting
 
 ### WebSocket connection fails
+
 - Ensure Lunacy is running
 - Check port 31416 is not blocked
 - Verify MCP server is enabled in settings
 
 ### UI doesn't appear
+
 - Check `registerui` was successful (200 response)
 - Verify `plugin_initialized` event was received
 - Restart Lunacy completely
 
 ### Events not received
+
 - Confirm `plugin_register` message was sent
 - Check WebSocket is still connected
 - Look for JSON parsing errors in console
 
 ### Values not updating
+
 - Call `getpluginuivalues` after UI changes
 - Parse returned values correctly (strings → numbers)
 - Check field IDs match exactly
@@ -1732,6 +1748,7 @@ dotnet build -c Release
 ```
 
 **Startup Time Comparison:**
+
 - Node.js (interpreted) - ~200-300ms
 - Python (interpreted) - ~300-500ms  
 - C# with `dotnet run` - ~2-3 seconds (slow!)
@@ -1742,6 +1759,7 @@ dotnet build -c Release
 ### For Service Plugins
 
 Service plugins stay running, so startup time matters less after initial launch. However:
+
 - **Node.js** - Excellent for rapid development, good runtime performance
 - **Python** - Great for data processing, slightly slower than Node.js
 - **C# compiled** - Best performance, especially for CPU-intensive operations

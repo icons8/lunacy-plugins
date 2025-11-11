@@ -22,11 +22,13 @@ This guide will help you create and run your first Lunacy plugin in just a few m
 **Test the API is running:**
 
 Windows (PowerShell):
+
 ```powershell
 Invoke-WebRequest -Uri http://localhost:31415/getselected
 ```
 
 macOS/Linux:
+
 ```bash
 curl http://localhost:31415/getselected
 ```
@@ -38,18 +40,21 @@ If you get a response (even if empty), the API is working!
 Choose your platform and create the plugins directory:
 
 **Linux:**
+
 ```bash
 mkdir -p ~/.local/share/Icons8/Lunacy/Plugins/hello-world
 cd ~/.local/share/Icons8/Lunacy/Plugins/hello-world
 ```
 
 **Windows:**
+
 ```bash
 mkdir %APPDATA%\Icons8\Lunacy\Plugins\hello-world
 cd %APPDATA%\Icons8\Lunacy\Plugins\hello-world
 ```
 
 **macOS:**
+
 ```bash
 mkdir -p ~/Library/Application\ Support/Icons8/Lunacy/Plugins/hello-world
 cd ~/Library/Application\ Support/Icons8/Lunacy/Plugins/hello-world
@@ -84,12 +89,14 @@ Choose **one** of the following languages:
 ### Option A: Node.js Plugin
 
 **Update plugin.jsonc executable section:**
+
 ```jsonc
 "executable": "node",
 "args": ["hello.js"]
 ```
 
 **Create `hello.js`:**
+
 ```javascript
 #!/usr/bin/env node
 
@@ -116,6 +123,7 @@ main();
 ```
 
 **Create `package.json`:**
+
 ```json
 {
   "name": "hello-world-plugin",
@@ -127,6 +135,7 @@ main();
 ```
 
 **Install dependencies:**
+
 ```bash
 npm install
 ```
@@ -136,12 +145,14 @@ npm install
 ### Option B: Python Plugin
 
 **Update plugin.jsonc executable section:**
+
 ```jsonc
 "executable": "python3",
 "args": ["hello.py"]
 ```
 
 **Create `hello.py`:**
+
 ```python
 #!/usr/bin/env python3
 
@@ -167,11 +178,13 @@ if __name__ == "__main__":
 ```
 
 **Create `requirements.txt`:**
+
 ```txt
 requests>=2.31.0
 ```
 
 **Install dependencies:**
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -181,6 +194,7 @@ pip install -r requirements.txt
 ### Option C: C# Plugin
 
 **Update plugin.jsonc executable section (for development):**
+
 ```jsonc
 "executable": "dotnet",
 "args": ["run", "--project", "HelloWorld.csproj"],
@@ -188,6 +202,7 @@ pip install -r requirements.txt
 ```
 
 **Create `HelloWorld.csproj`:**
+
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
@@ -203,6 +218,7 @@ pip install -r requirements.txt
 ```
 
 **Create `Program.cs`:**
+
 ```csharp
 using System.Net.Http.Json;
 using System.Text.Json.Serialization;
@@ -265,6 +281,7 @@ internal sealed partial class HelloWorldJsonContext : JsonSerializerContext
 **Production Build (Recommended for Speed):**
 
 For faster startup, compile to native binary:
+
 ```bash
 # Build release version
 dotnet build -c Release
@@ -274,6 +291,7 @@ dotnet build -c Release
 ```
 
 Update `plugin.jsonc` to use compiled binary:
+
 ```jsonc
 {
   "id": "hello-world",
@@ -324,15 +342,16 @@ Make sure Lunacy is running - you should see a toast notification!
 5. Click **"Hello World" → "Say Hello"**
 6. You should see a toast notification
 
-## Success!
+## Success
 
-You've just created your first Lunacy plugin! 
+You've just created your first Lunacy plugin!
 
 ## What's Next?
 
 Ready to create more advanced plugins with interactive UI?
 
 Check out the **[UI Plugin Quick Start Guide](./QUICK_START_UI.md)** to learn how to:
+
 - Create interactive UI dialogs with buttons, inputs, and dropdowns
 - Listen to WebSocket events from Lunacy
 - Build complex features like Smart Duplicate with preset transformations
@@ -348,21 +367,25 @@ Check out the **[UI Plugin Quick Start Guide](./QUICK_START_UI.md)** to learn ho
 ## Troubleshooting
 
 ### Plugin doesn't appear in menu
+
 - Check `plugin.jsonc` syntax (use JSON validator)
 - Verify file is in correct plugins directory
 - Restart Lunacy completely
 
 ### "Connection refused" error
+
 - Make sure Lunacy is running
 - Check that Automation API server is enabled in Lunacy settings
 - Test API: `curl http://localhost:31415/getselected`
 
 ### Script doesn't run
+
 - Test script directly: `node hello.js`, `python3 hello.py`, or `dotnet run`
 - Check console output for errors
 - Verify dependencies are installed
 
 ### No toast appears
+
 - Check Lunacy is in foreground
 - Verify API endpoint is correct
 - Try with longer `durationSeconds`

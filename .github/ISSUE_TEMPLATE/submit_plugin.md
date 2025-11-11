@@ -8,10 +8,10 @@ assignees: ''
 
 ## Plugin Information
 
-- **Plugin Name:** 
-- **Repository URL:** 
+- **Plugin Name:**
+- **Repository URL:**
 - **Author:** @your-github-username
-- **License:** 
+- **License:**
 
 ## Description
 

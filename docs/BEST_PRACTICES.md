@@ -26,6 +26,7 @@ Lunacy uses FREE (internal JSON format) for layer data. Understanding its constr
 **1. NULL-free, NaN-free, Infinity-free**
 
 FREE format does NOT allow these values:
+
 ```javascript
 // WRONG - Invalid FREE format
 {
@@ -49,6 +50,7 @@ FREE format does NOT allow these values:
 **2. GUID Format**
 
 GUIDs are always 22-character base64 strings:
+
 ```javascript
 // CORRECT GUID format
 "id": "nF7kM2xPqE-ABcD3fGhIjK"  // Exactly 22 chars
@@ -61,6 +63,7 @@ GUIDs are always 22-character base64 strings:
 **3. Property Names**
 
 Use correct FREE property names:
+
 ```javascript
 // CORRECT - FREE property names
 {
@@ -84,6 +87,7 @@ Use correct FREE property names:
 **4. Layer Type Names**
 
 Use correct `_t` values:
+
 ```javascript
 // CORRECT layer types
 "_t": "OVAL"      // ✓ Oval shape
@@ -265,6 +269,7 @@ if (rectangles.length === 0) {
 ```
 
 **Common Layer Types:**
+
 - `RECT` - Rectangle
 - `OVAL` - Oval/Ellipse
 - `TEXT` - Text layer
@@ -838,6 +843,7 @@ async function validateFileSize(filePath) {
 ### Choose Appropriate UI Type
 
 **Toast notifications** for:
+
 - Quick status updates
 - Progress indication
 - Error messages
@@ -851,6 +857,7 @@ await axios.post(`${API}/showtoast`, {
 ```
 
 **Dynamic UI registration** for:
+
 - Configuration before operation
 - Multiple user inputs needed
 - Settings that persist across runs
@@ -864,6 +871,7 @@ await axios.post(`${API}/registerui`, {
 ```
 
 **External UI** for:
+
 - Complex workflows
 - Real-time preview
 - Rich interactive controls

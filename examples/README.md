@@ -33,16 +33,19 @@ C# version demonstrating development workflows.
 Each example can be installed by copying its directory to your Lunacy plugins folder:
 
 ### Linux
+
 ```bash
 cp -r example-name ~/.local/share/Icons8/Lunacy/Plugins/
 ```
 
 ### Windows
+
 ```cmd
 xcopy /E /I example-name "%APPDATA%\Icons8\Lunacy\Plugins\example-name"
 ```
 
 ### macOS
+
 ```bash
 cp -r example-name ~/Library/Application\ Support/Icons8/Lunacy/Plugins/
 ```

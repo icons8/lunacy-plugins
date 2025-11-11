@@ -23,6 +23,7 @@ Comprehensive guide to diagnosing and fixing common plugin issues.
 When your plugin isn't working, check these first:
 
 ### Basic Checks
+
 - [ ] Is Lunacy running?
 - [ ] Is Automation API enabled? (Check: `AI → Model Context Protocol → MCP server enabled`)
 - [ ] Test API: `curl http://localhost:31415/getselected` (should respond, not "Connection refused")
@@ -34,17 +35,21 @@ When your plugin isn't working, check these first:
 ### Platform-Specific Plugin Directories
 
 **Windows:**
+
 ```
 %APPDATA%\Icons8\Lunacy\Plugins\your-plugin-name\
 ```
+
 Example: `C:\Users\YourName\AppData\Roaming\Icons8\Lunacy\Plugins\your-plugin-name\`
 
 **macOS:**
+
 ```bash
 ~/Library/Application Support/Icons8/Lunacy/Plugins/your-plugin-name/
 ```
 
 **Linux:**
+
 ```bash
 ~/.local/share/Icons8/Lunacy/Plugins/your-plugin-name/
 ```
@@ -54,11 +59,13 @@ Example: `C:\Users\YourName\AppData\Roaming\Icons8\Lunacy\Plugins\your-plugin-na
 **Test API connectivity:**
 
 Windows (PowerShell):
+
 ```powershell
 Invoke-WebRequest -Uri http://localhost:31415/getselected
 ```
 
 macOS/Linux:
+
 ```bash
 curl http://localhost:31415/getselected
 ```
@@ -66,6 +73,7 @@ curl http://localhost:31415/getselected
 **Test plugin script directly:**
 
 Windows (PowerShell):
+
 ```powershell
 node your-plugin.js
 python your-plugin.py
@@ -73,6 +81,7 @@ dotnet run --project YourPlugin.csproj
 ```
 
 macOS/Linux:
+
 ```bash
 node your-plugin.js
 python3 your-plugin.py
@@ -88,16 +97,19 @@ dotnet run --project YourPlugin.csproj
 **Cause 1: Invalid JSON syntax**
 
 Windows (PowerShell):
+
 ```powershell
 Get-Content plugin.jsonc | ConvertFrom-Json
 ```
 
 macOS/Linux:
+
 ```bash
 cat plugin.jsonc | jq .
 ```
 
 Common JSON errors:
+
 - Missing commas
 - Trailing commas (last item in array/object)
 - Unquoted keys
@@ -105,6 +117,7 @@ Common JSON errors:
 - Comments in `.json` files (use `.jsonc` for comments)
 
 **Solution:**
+
 ```jsonc
 // WRONG
 {
@@ -124,6 +137,7 @@ Common JSON errors:
 **Cause 2: Wrong file location**
 
 Windows (PowerShell):
+
 ```powershell
 # Check if plugin directory exists
 Get-ChildItem "$env:APPDATA\Icons8\Lunacy\Plugins\"
@@ -133,18 +147,21 @@ Test-Path "$env:APPDATA\Icons8\Lunacy\Plugins\your-plugin-name\plugin.jsonc"
 ```
 
 macOS:
+
 ```bash
 ls ~/Library/Application\ Support/Icons8/Lunacy/Plugins/
 ls ~/Library/Application\ Support/Icons8/Lunacy/Plugins/your-plugin-name/plugin.jsonc
 ```
 
 Linux:
+
 ```bash
 ls ~/.local/share/Icons8/Lunacy/Plugins/
 ls ~/.local/share/Icons8/Lunacy/Plugins/your-plugin-name/plugin.jsonc
 ```
 
 **Solution:**
+
 - Create plugin directory in correct location
 - Ensure `plugin.jsonc` is in plugin root directory
 - Restart Lunacy
@@ -152,6 +169,7 @@ ls ~/.local/share/Icons8/Lunacy/Plugins/your-plugin-name/plugin.jsonc
 **Cause 3: Missing required fields**
 
 Required fields in `plugin.jsonc`:
+
 - `id` - Unique plugin identifier
 - `name` - Display name
 - `version` - Version string
@@ -180,6 +198,7 @@ Required fields in `plugin.jsonc`:
 **Solution:**
 
 Windows (PowerShell):
+
 ```powershell
 # Check if executable exists
 Get-Command node
@@ -188,6 +207,7 @@ Get-Command dotnet
 ```
 
 macOS/Linux:
+
 ```bash
 # Check if executable exists
 which node
@@ -207,6 +227,7 @@ chmod +x your-script.sh
 **Cause 1: Lunacy not running**
 
 **Solution:**
+
 - Start Lunacy
 - Wait for it to fully load
 - Retry plugin
@@ -223,22 +244,26 @@ The Automation API is controlled by a setting in Lunacy's AI menu:
 4. **Verify it's running:**
 
 Windows (PowerShell):
+
 ```powershell
 Invoke-WebRequest -Uri http://localhost:31415/getselected
 ```
 
 macOS/Linux:
+
 ```bash
 curl http://localhost:31415/getselected
 ```
 
 **Expected behavior:**
+
 - If server is running: You'll get a response (200 OK or JSON data)
 - If server is disabled: "Connection refused" error
 
 **Note:** The server will automatically enable when you add your first plugin to the plugins directory, but you can enable it manually at any time.
 
 **Location of the setting:**
+
 - Menu: `AI → Model Context Protocol → MCP server enabled`
 - Default port: `31415`
 - Setting key: `IsMcpServerEnabled` (boolean)
@@ -246,16 +271,19 @@ curl http://localhost:31415/getselected
 **Cause 3: Port conflict**
 
 Windows (PowerShell):
+
 ```powershell
 Get-NetTCPConnection -LocalPort 31415
 ```
 
 macOS/Linux:
+
 ```bash
 lsof -i :31415
 ```
 
 **Solution:**
+
 - Close other applications using port 31415
 - Restart Lunacy
 
@@ -264,16 +292,19 @@ lsof -i :31415
 **Solution:**
 
 Windows:
+
 - Open Windows Defender Firewall
 - Check if Lunacy is allowed through firewall
 - Localhost connections usually allowed by default
 
 macOS:
+
 - System Preferences > Security & Privacy > Firewall
 - Allow Lunacy if prompted
 - Localhost connections usually allowed by default
 
 Linux:
+
 ```bash
 # Allow localhost connections (if using ufw)
 sudo ufw allow from 127.0.0.1 to any port 31415
@@ -288,6 +319,7 @@ sudo ufw status
 
 **Solution:**
 Increase timeout in `plugin.jsonc`:
+
 ```jsonc
 {
   "commands": [
@@ -303,6 +335,7 @@ Increase timeout in `plugin.jsonc`:
 ```
 
 Recommended timeouts:
+
 - Simple operations: 5000ms (5 sec)
 - Export operations: 30000ms (30 sec)
 - AI/LLM operations: 120000ms (2 min)
@@ -318,24 +351,28 @@ Recommended timeouts:
 1. **Test script directly:**
 
 Windows (PowerShell):
+
 ```powershell
 node your-plugin.js
 python your-plugin.py
 ```
 
 macOS/Linux:
+
 ```bash
 node your-plugin.js
 python3 your-plugin.py
 ```
 
 2. **Check script permissions (macOS/Linux only):**
+
 ```bash
 ls -l your-plugin.js
 # Should be readable: -rw-r--r--
 ```
 
 3. **Check shebang (macOS/Linux executable scripts):**
+
 ```bash
 #!/usr/bin/env node
 # Must be first line, not needed on Windows
@@ -344,24 +381,28 @@ ls -l your-plugin.js
 4. **Check dependencies:**
 
 Node.js (all platforms):
+
 ```bash
 npm install
 npm list
 ```
 
 Python (Windows PowerShell):
+
 ```powershell
 pip install -r requirements.txt
 pip list
 ```
 
 Python (macOS/Linux):
+
 ```bash
 pip3 install -r requirements.txt
 pip3 list
 ```
 
 C# (all platforms):
+
 ```bash
 dotnet restore
 dotnet build
@@ -413,6 +454,7 @@ if (response.status !== 200) {
 ### Problem: Permission denied errors
 
 **Windows:**
+
 ```powershell
 # Check file ownership
 Get-Acl "$env:APPDATA\Icons8\Lunacy\Plugins\your-plugin-name"
@@ -422,6 +464,7 @@ Get-Acl "$env:APPDATA\Icons8\Lunacy\Plugins\your-plugin-name"
 ```
 
 **macOS/Linux:**
+
 ```bash
 # Check file permissions
 ls -l ~/Library/Application\ Support/Icons8/Lunacy/Plugins/your-plugin-name/  # macOS
@@ -442,6 +485,7 @@ chmod 755 script.js  # If executable script
 **Cause:** Nothing selected in Lunacy
 
 **Solution:**
+
 ```javascript
 // Always check for empty selection
 const response = await axios.get(`${API}/getselected`);
@@ -468,6 +512,7 @@ if (layers.length === 0 || !layers[0]._t) {
 **Cause:** Layer ID doesn't exist or changed
 
 **Debug approach:**
+
 ```javascript
 // Log layer IDs
 console.log('Selected layer IDs:', layers.map(l => l.id));
@@ -482,6 +527,7 @@ if (verification.data.length !== layerIds.length) {
 ```
 
 **Solution:**
+
 - Don't cache layer IDs between operations
 - Always get fresh selection data
 - Validate layer IDs before use
@@ -491,6 +537,7 @@ if (verification.data.length !== layerIds.length) {
 **Cause:** Incorrect data handling
 
 **Solution:**
+
 ```javascript
 // WRONG - Treating byte array as string
 const data = result.data.toString();
@@ -512,6 +559,7 @@ with open(filename, "wb") as f:
 **Cause:** Invalid FREE format data
 
 **Common issues:**
+
 ```javascript
 // NULL values
 layer.name = null;  // ❌ Use empty string: ""
@@ -527,6 +575,7 @@ layer.id = "abc123";  // ❌ Must be 22 chars base64
 ```
 
 **Solution:**
+
 ```javascript
 function sanitizeFreeFormat(layer) {
   // Remove null values
@@ -555,6 +604,7 @@ function sanitizeFreeFormat(layer) {
 ### Problem: Plugin is slow
 
 **Diagnosis:**
+
 ```javascript
 // Add timing
 console.time('operation');
@@ -565,6 +615,7 @@ console.timeEnd('operation');
 **Common causes:**
 
 1. **Too many API calls**
+
 ```javascript
 // SLOW - Multiple calls
 for (const layer of layers) {
@@ -576,6 +627,7 @@ await axios.post(`${API}/updatelayers`, layers);
 ```
 
 2. **Large data transfers**
+
 ```javascript
 // Only request needed data
 const layers = await axios.post(`${API}/getlayersbyids`, layerIds);
@@ -587,6 +639,7 @@ const minimal = layers.data.map(l => ({
 ```
 
 3. **Synchronous operations**
+
 ```javascript
 // SLOW - Sequential
 for (const layer of layers) {
@@ -602,6 +655,7 @@ await Promise.all(layers.map(processLayer));
 **Cause:** Memory leak in service plugin
 
 **Diagnosis:**
+
 ```javascript
 // Monitor memory
 setInterval(() => {
@@ -614,6 +668,7 @@ setInterval(() => {
 ```
 
 **Solution:**
+
 ```javascript
 // Limit cache size
 const cache = new Map();
@@ -649,6 +704,7 @@ setInterval(clearOldData, 300000); // Every 5 minutes
 **Check logs:**
 
 Windows:
+
 ```powershell
 # View logs
 Get-ChildItem "$env:LOCALAPPDATA\Icons8\Lunacy\Logs\"
@@ -658,6 +714,7 @@ Get-Content "$env:LOCALAPPDATA\Icons8\Lunacy\Logs\latest.log"
 Example: `C:\Users\YourName\AppData\Local\Icons8\Lunacy\Logs\`
 
 macOS:
+
 ```bash
 # View logs
 ls ~/Library/Logs/Icons8/Lunacy/
@@ -665,6 +722,7 @@ tail -f ~/Library/Logs/Icons8/Lunacy/latest.log
 ```
 
 Linux:
+
 ```bash
 # View logs
 ls ~/.local/share/Icons8/Lunacy/Logs/
@@ -674,6 +732,7 @@ tail -f ~/.local/share/Icons8/Lunacy/Logs/latest.log
 **Common causes:**
 
 1. **Missing lifecycle field**
+
 ```jsonc
 // WRONG
 {
@@ -695,6 +754,7 @@ tail -f ~/.local/share/Icons8/Lunacy/Logs/latest.log
 ```
 
 2. **Script doesn't stay running**
+
 ```javascript
 // WRONG - Exits immediately
 console.log('Service started');
@@ -717,6 +777,7 @@ process.on('SIGTERM', () => {
 ### Problem: Service plugin crashes
 
 **Add crash recovery:**
+
 ```javascript
 // Restart WebSocket on disconnect
 function connectWebSocket() {
@@ -744,6 +805,7 @@ let ws = connectWebSocket();
 ### Problem: Service plugin not stopping
 
 **Implement graceful shutdown:**
+
 ```javascript
 let isShuttingDown = false;
 
@@ -986,6 +1048,7 @@ await axios.post(`${API}/showtoast`, {
 ```
 
 **Icon types (0-13):**
+
 - 0: None
 - 1: Copy (Success)
 - 2: CheckDone
@@ -1008,6 +1071,7 @@ await axios.post(`${API}/showtoast`, {
 ### Console Logging
 
 **Structured logging:**
+
 ```javascript
 function log(level, message, data = {}) {
   const timestamp = new Date().toISOString();
@@ -1026,6 +1090,7 @@ log('error', 'Operation failed', { error: error.message, layerId });
 ### API Request Logging
 
 **Log all API calls:**
+
 ```javascript
 async function apiRequest(endpoint, method = 'GET', data = null) {
   const startTime = Date.now();
@@ -1063,6 +1128,7 @@ async function apiRequest(endpoint, method = 'GET', data = null) {
 ### File Logging
 
 **Log to file for debugging:**
+
 ```javascript
 const fs = require('fs');
 const path = require('path');
@@ -1088,22 +1154,26 @@ console.log('Log file location:', logFile);
 **Capture HTTP traffic:**
 
 Windows:
+
 - Use Wireshark with filter: `tcp.port == 31415`
 - Or use browser DevTools for HTTP requests
 
 macOS:
+
 ```bash
 # Using tcpdump
 sudo tcpdump -i lo0 -A 'tcp port 31415'
 ```
 
 Linux:
+
 ```bash
 # Using tcpdump
 sudo tcpdump -i lo -A 'tcp port 31415'
 ```
 
 All platforms:
+
 - Wireshark: Filter `tcp.port == 31415`
 - Postman: Test API endpoints manually
 
@@ -1116,16 +1186,19 @@ All platforms:
 **Node.js:**
 
 Windows (PowerShell):
+
 ```powershell
 $env:DEBUG="*"; node plugin.js
 ```
 
 macOS/Linux:
+
 ```bash
 DEBUG=* node plugin.js
 ```
 
 All platforms (via plugin.jsonc):
+
 ```jsonc
 {
   "commands": [{
@@ -1140,6 +1213,7 @@ All platforms (via plugin.jsonc):
 ```
 
 **Python:**
+
 ```python
 import logging
 
@@ -1159,6 +1233,7 @@ logger.debug('Plugin started')
 ### Diagnostic Information
 
 **Collect system info:**
+
 ```javascript
 function getSystemInfo() {
   return {
@@ -1180,6 +1255,7 @@ console.log('System Info:', JSON.stringify(getSystemInfo(), null, 2));
 ### Health Check Endpoint
 
 **For service plugins:**
+
 ```javascript
 const http = require('http');
 
@@ -1206,6 +1282,7 @@ console.log('Health check: http://localhost:9999');
 ### Q: Why doesn't my plugin appear after I created it?
 
 **A:** Most common causes:
+
 1. Invalid JSON syntax in `plugin.jsonc`
 2. Plugin not in correct directory
 3. Lunacy not restarted after adding plugin
@@ -1216,10 +1293,12 @@ console.log('Health check: http://localhost:9999');
 ### Q: Plugin runs but selection is always empty
 
 **A:** This happens when:
+
 1. Nothing is actually selected in Lunacy
 2. You're checking wrong field (use `_t` field, not `id`)
 
 **Solution:**
+
 ```javascript
 const layers = Array.isArray(data) ? data : [data];
 if (layers.length === 0 || !layers[0]._t) {
@@ -1232,6 +1311,7 @@ if (layers.length === 0 || !layers[0]._t) {
 **A:** Export data is byte array, not base64 string.
 
 **Solution:**
+
 ```javascript
 // Node.js
 const buffer = Buffer.from(result.data);
@@ -1244,11 +1324,13 @@ file_data = bytes(result["data"])
 ### Q: Service plugin stops working after a while
 
 **A:** Common causes:
+
 1. WebSocket connection lost
 2. Memory leak causing crash
 3. Unhandled errors
 
 **Solution:**
+
 - Implement WebSocket reconnection
 - Add error handlers for all async operations
 - Monitor memory usage
@@ -1257,6 +1339,7 @@ file_data = bytes(result["data"])
 ### Q: Plugin works on Windows but not Linux
 
 **A:** Common causes:
+
 1. Path separators (use `path.join()`)
 2. File permissions (Linux/macOS require executable bit, Windows doesn't)
 3. Line endings (Windows: CRLF, Linux/macOS: LF)
@@ -1264,6 +1347,7 @@ file_data = bytes(result["data"])
 5. Python executable name (`python` on Windows, `python3` on Linux/macOS)
 
 **Solution:**
+
 ```javascript
 // Use path.join for cross-platform paths
 const path = require('path');
@@ -1274,6 +1358,7 @@ const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
 ```
 
 Fix line endings:
+
 ```bash
 # Convert to Unix line endings (LF)
 dos2unix script.sh  # Linux/macOS
@@ -1284,6 +1369,7 @@ git config --global core.autocrlf true   # Windows
 ```
 
 Fix permissions (Linux/macOS only):
+
 ```bash
 chmod +x script.sh
 ```
@@ -1291,6 +1377,7 @@ chmod +x script.sh
 ### Q: How do I debug intermittent issues?
 
 **A:** Add comprehensive logging:
+
 ```javascript
 // Log everything
 console.log('Starting operation');
@@ -1309,6 +1396,7 @@ try {
 ### Q: Plugin times out but runs fine when tested directly
 
 **A:** Increase timeout in `plugin.jsonc`:
+
 ```jsonc
 {
   "timeoutMs": 60000  // 60 seconds instead of default 5000
@@ -1318,6 +1406,7 @@ try {
 ### Q: Can I debug plugin while it runs from Lunacy?
 
 **A:** Yes, use file logging:
+
 ```javascript
 const fs = require('fs');
 const path = require('path');
@@ -1339,11 +1428,13 @@ console.log('Debug log:', logPath);
 Monitor the log:
 
 Windows (PowerShell):
+
 ```powershell
 Get-Content "$env:TEMP\plugin-debug.log" -Wait
 ```
 
 macOS/Linux:
+
 ```bash
 tail -f /tmp/plugin-debug.log
 ```
@@ -1388,6 +1479,7 @@ ws.on('message', async (data) => {
 ### Q: Why doesn't my plugin receive show_ui or close_ui events?
 
 **A:** You need to:
+
 1. Connect to WebSocket: `ws://localhost:31416`
 2. Listen to `message` event
 3. Parse JSON and check `event.event` field

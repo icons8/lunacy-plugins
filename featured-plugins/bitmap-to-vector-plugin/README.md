@@ -7,11 +7,13 @@ Service plugin that converts bitmap images to vector graphics using VTracer with
 Just run the plugin - vtracer will be downloaded automatically on first run (~2.5MB):
 
 **Linux/macOS:**
+
 ```bash
 python3 vectorize_ui.py
 ```
 
 **Windows:**
+
 ```cmd
 python vectorize_ui.py
 ```
@@ -28,6 +30,7 @@ That's it! Plugin will auto-download vtracer binary and start working.
 ## Features
 
 **Interactive UI with all VTracer parameters:**
+
 - **Smart Presets**: Photo, Poster, BW, Custom
   - Selecting preset auto-updates all parameters
   - Changing parameters auto-detects matching preset or switches to Custom
@@ -43,6 +46,7 @@ That's it! Plugin will auto-download vtracer binary and start working.
 - Splice Threshold: 0-180°
 
 **Background Service:**
+
 - Auto-starts with Lunacy
 - Always available in menu
 - Real-time WebSocket communication

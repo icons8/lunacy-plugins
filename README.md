@@ -59,6 +59,7 @@ See the [Quick Start Guide](./docs/QUICK_START.md) for detailed instructions.
 AI-powered Auto Layout configuration. Analyzes your design visually and sets up responsive layouts automatically.
 
 **Features:**
+
 - Vision-based design analysis
 - Smart grouping and spacing
 - Semantic layer naming
@@ -71,6 +72,7 @@ AI-powered Auto Layout configuration. Analyzes your design visually and sets up 
 Convert raster images to scalable vector graphics with interactive UI and smart presets.
 
 **Features:**
+
 - Interactive parameter tuning
 - Photo, Poster, B&W presets
 - Background service mode
@@ -154,16 +156,19 @@ await fetch('http://localhost:31415/showtoast', {
 ## Installation Paths
 
 ### Linux
+
 ```bash
 ~/.local/share/Icons8/Lunacy/Plugins/your-plugin-name/
 ```
 
 ### Windows
-```
+
+```cmd
 %APPDATA%\Icons8\Lunacy\Plugins\your-plugin-name\
 ```
 
 ### macOS
+
 ```bash
 ~/Library/Application Support/Icons8/Lunacy/Plugins/your-plugin-name/
 ```

@@ -42,11 +42,13 @@ All HTTP endpoints are relative to this base URL.
 Get currently selected layers.
 
 **Request:**
+
 ```bash
 curl http://localhost:31415/getselected
 ```
 
 **Response:**
+
 - Single layer object when 1 layer selected
 - Array of layer objects when multiple layers selected
 - Empty object `{}` when nothing selected
@@ -63,6 +65,7 @@ curl http://localhost:31415/getselected
 ```
 
 **Notes:**
+
 - Layer objects are in FREE format (Lunacy's internal format)
 - Always handle both single object and array responses
 - Check `_t` field to determine layer type
@@ -72,6 +75,7 @@ curl http://localhost:31415/getselected
 Change current selection.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/setselected \
   -H "Content-Type: application/json" \
@@ -79,11 +83,13 @@ curl -X POST http://localhost:31415/setselected \
 ```
 
 **Body:**
+
 - Single layer object to select one layer
 - Array of layer objects to select multiple layers
 - Empty array `[]` to clear selection
 
 **Response:**
+
 ```json
 {
   "success": true
@@ -95,6 +101,7 @@ curl -X POST http://localhost:31415/setselected \
 Get layer data by layer IDs.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/getlayersbyids \
   -H "Content-Type: application/json" \
@@ -119,6 +126,7 @@ Array of layer objects in FREE format.
 Get all layers within specified rectangular area.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/getlayersinarea \
   -H "Content-Type: application/json" \
@@ -151,6 +159,7 @@ The layer modification endpoints use **different request formats**:
 Create new layers in the document.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/createlayers \
   -H "Content-Type: application/json" \
@@ -160,6 +169,7 @@ curl -X POST http://localhost:31415/createlayers \
 **Body:** [CreateLayersRequest](#createlayersrequest)
 
 **Response:**
+
 ```json
 {
   "CreatedLayerIds": ["new-id-1", "new-id-2"],
@@ -168,6 +178,7 @@ curl -X POST http://localhost:31415/createlayers \
 ```
 
 **Notes:**
+
 - **CRITICAL:** `layersJson` must be a **JSON STRING** (not a JSON object!)
 - Example in JavaScript: `JSON.stringify([{_t: "RECT", name: "Shape"}])`
 - Layers are added to specified parent or root if `parentId` is null
@@ -178,6 +189,7 @@ curl -X POST http://localhost:31415/createlayers \
 Update existing layers.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/updatelayers \
   -H "Content-Type: application/json" \
@@ -188,6 +200,7 @@ curl -X POST http://localhost:31415/updatelayers \
 Array of layer objects with modified properties. Must include `id` field.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -196,6 +209,7 @@ Array of layer objects with modified properties. Must include `id` field.
 ```
 
 **Notes:**
+
 - Only modified fields need to be provided
 - `id` field is required to identify layer
 - Creates single undo operation for all updates
@@ -205,6 +219,7 @@ Array of layer objects with modified properties. Must include `id` field.
 Delete layers by IDs.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/deletelayers \
   -H "Content-Type: application/json" \
@@ -215,6 +230,7 @@ curl -X POST http://localhost:31415/deletelayers \
 Array of layer IDs (strings) to delete.
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -223,6 +239,7 @@ Array of layer IDs (strings) to delete.
 ```
 
 **Notes:**
+
 - Deletion is permanent (unless undone)
 - Deleting parent layer also deletes all children
 - Creates single undo operation
@@ -232,6 +249,7 @@ Array of layer IDs (strings) to delete.
 Duplicate layers with offset.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/duplicatelayers \
   -H "Content-Type: application/json" \
@@ -263,6 +281,7 @@ curl -X POST http://localhost:31415/duplicatelayers \
 Get screenshot of specific layers by IDs.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/getscreenshotbyid \
   -H "Content-Type: application/json" \
@@ -273,6 +292,7 @@ curl -X POST http://localhost:31415/getscreenshotbyid \
 
 **Response:**
 Binary image data with appropriate `Content-Type` header and metadata in custom headers:
+
 - `X-Image-Format`: Image format (PNG, JPG, WEBP)
 - `X-Image-Width`: Image width in pixels
 - `X-Image-Height`: Image height in pixels
@@ -282,6 +302,7 @@ Binary image data with appropriate `Content-Type` header and metadata in custom 
 Get screenshot of current viewport.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/getscreenshotviewport
 ```
@@ -290,6 +311,7 @@ curl -X POST http://localhost:31415/getscreenshotviewport
 
 **Response:**
 Binary image data with metadata in custom headers:
+
 - `X-Image-Format`: Image format (PNG)
 - `X-Image-Width`: Image width in pixels
 - `X-Image-Height`: Image height in pixels
@@ -299,6 +321,7 @@ Binary image data with metadata in custom headers:
 Get screenshot of specific rectangular area.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/getscreenshotarea \
   -H "Content-Type: application/json" \
@@ -319,6 +342,7 @@ Binary image data.
 Export layers to files.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/export \
   -H "Content-Type: application/json" \
@@ -346,6 +370,7 @@ curl -X POST http://localhost:31415/export \
 ```
 
 **Supported Formats:**
+
 - `PNG` - Portable Network Graphics
 - `SVG` - Scalable Vector Graphics
 - `PDF` - Portable Document Format
@@ -355,6 +380,7 @@ curl -X POST http://localhost:31415/export \
 - `ICO` - Windows Icon
 
 **Notes:**
+
 - `data` field contains byte array (not base64)
 - In JavaScript/Node.js, data is automatically converted to Buffer
 - `fileName` is auto-generated from layer name
@@ -369,11 +395,13 @@ curl -X POST http://localhost:31415/export \
 Undo last operation.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/undo
 ```
 
 **Response:**
+
 ```json
 {
   "success": true
@@ -385,11 +413,13 @@ curl -X POST http://localhost:31415/undo
 Redo last undone operation.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/redo
 ```
 
 **Response:**
+
 ```json
 {
   "success": true
@@ -401,6 +431,7 @@ curl -X POST http://localhost:31415/redo
 Get undo history.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/getundostack \
   -H "Content-Type: text/plain" \
@@ -426,6 +457,7 @@ Array of undo operation objects.
 ```
 
 **Notes:**
+
 - Operations are in reverse chronological order (newest first)
 - Each operation contains serialized layer states
 - Use for undo history visualization or layer diff tools
@@ -439,6 +471,7 @@ Array of undo operation objects.
 Show toast notification in Lunacy.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/showtoast \
   -H "Content-Type: application/json" \
@@ -453,6 +486,7 @@ curl -X POST http://localhost:31415/showtoast \
 **Body:** [ShowToastRequest](#showtoastrequest)
 
 **Response:**
+
 ```json
 {
   "success": true
@@ -460,6 +494,7 @@ curl -X POST http://localhost:31415/showtoast \
 ```
 
 **Icon Types:**
+
 - `0` - None
 - `1` - Copy
 - `2` - CheckDone
@@ -478,6 +513,7 @@ curl -X POST http://localhost:31415/showtoast \
 **Priority:** 1-255 (higher = more important, default: 5)
 
 **Additional Parameters:**
+
 - `IsContinuable` (bool): Toast can be paused on hover (default: true)
 - `IsSkippable` (bool): Can be skipped by newer toasts (default: false)
 - `IsAttention` (bool): Attention-grabbing toast (default: false)
@@ -491,6 +527,7 @@ curl -X POST http://localhost:31415/showtoast \
 Get components (master components) by IDs.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/getcomponents \
   -H "Content-Type: application/json" \
@@ -508,6 +545,7 @@ Array of component layer objects in FREE format.
 Get image resource by ID.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/getimage \
   -H "Content-Type: application/json" \
@@ -524,6 +562,7 @@ Binary image data with appropriate `Content-Type` header.
 Insert image into document at specified position.
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:31415/insertimage \
   -H "Content-Type: image/png" \
@@ -535,6 +574,7 @@ curl -X POST http://localhost:31415/insertimage \
 ```
 
 **Headers:**
+
 - `X-Image-Position-X` (optional): X position (default: 0)
 - `X-Image-Position-Y` (optional): Y position (default: 0)
 - `X-Image-File-Name` (optional): Image file name
@@ -544,6 +584,7 @@ curl -X POST http://localhost:31415/insertimage \
 Binary image data (PNG, JPG, WEBP, etc.)
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -552,6 +593,7 @@ Binary image data (PNG, JPG, WEBP, etc.)
 ```
 
 **Notes:**
+
 - Image is inserted as new image layer
 - Supported formats: PNG, JPG, JPEG, WEBP, GIF, BMP, TIFF
 - Max size: 200 MB
@@ -561,6 +603,7 @@ Binary image data (PNG, JPG, WEBP, etc.)
 Get current viewport information.
 
 **Request:**
+
 ```bash
 curl http://localhost:31415/getviewportinfo
 ```
@@ -569,6 +612,7 @@ curl http://localhost:31415/getviewportinfo
 Plain text string with viewport coordinates.
 
 Example:
+
 ```
 Viewport: x=0, y=0, width=1920, height=1080
 ```
@@ -582,6 +626,7 @@ Viewport: x=0, y=0, width=1920, height=1080
 Connect to WebSocket server for real-time events.
 
 **URL:**
+
 ```
 ws://localhost:31416
 ```
@@ -627,6 +672,7 @@ const ws = await connectToWebSocket();
 ```
 
 **Connection Example (JavaScript):**
+
 ```javascript
 const ws = new WebSocket('ws://localhost:31416');
 
@@ -657,6 +703,7 @@ Fired when layer selection changes.
 **Event Type:** `"selection"`
 
 **JSON Structure:**
+
 ```json
 {
   "type": "selection",
@@ -667,6 +714,7 @@ Fired when layer selection changes.
 ```
 
 **Fields:**
+
 - `type` (string): Always `"selection"`
 - `timestamp` (string): ISO 8601 UTC timestamp
 - `layer_ids` (string[]): Array of selected layer IDs
@@ -679,6 +727,7 @@ Fired when undo/redo operation occurs or undo stack changes.
 **Event Type:** `"undo"`
 
 **JSON Structure:**
+
 ```json
 {
   "type": "undo",
@@ -696,6 +745,7 @@ Fired when undo/redo operation occurs or undo stack changes.
 ```
 
 **Fields:**
+
 - `type` (string): Always `"undo"`
 - `timestamp` (string): ISO 8601 UTC timestamp
 - `operation` (string): Operation category
@@ -715,6 +765,7 @@ Fired when document state changes (opened, closed, activated, deactivated).
 **Event Type:** `"document"`
 
 **JSON Structure:**
+
 ```json
 {
   "type": "document",
@@ -727,6 +778,7 @@ Fired when document state changes (opened, closed, activated, deactivated).
 ```
 
 **Fields:**
+
 - `type` (string): Always `"document"`
 - `timestamp` (string): ISO 8601 UTC timestamp
 - `document_type` (string): Event type
@@ -745,6 +797,7 @@ Fired when Lunacy window state changes.
 **Event Type:** `"window"`
 
 **JSON Structure:**
+
 ```json
 {
   "type": "window",
@@ -755,6 +808,7 @@ Fired when Lunacy window state changes.
 ```
 
 **Fields:**
+
 - `type` (string): Always `"window"`
 - `timestamp` (string): ISO 8601 UTC timestamp
 - `event_type` (string): Event type
@@ -878,6 +932,7 @@ Fired when Lunacy window state changes.
 Layers use FREE format - Lunacy's internal JSON representation.
 
 **Important Notes:**
+
 - FREE format is **NULL-free, NaN-free, Infinity-free**
 - Any NULL, NaN, or Infinity values mean broken JSON
 - GUIDs are 22-character base64 strings
@@ -890,6 +945,7 @@ Layers use a **transform matrix** for positioning and transformations, NOT x/y c
 **Matrix Format:** `[scaleX, skewX, transX, skewY, scaleY, transY]`
 
 **Index Mapping:**
+
 - `[0]` = scaleX (horizontal scale)
 - `[1]` = skewX (horizontal skew)
 - `[2]` = **transX (X position)**
@@ -945,6 +1001,7 @@ function setPosition(transform, x, y) {
 ```
 
 **Common Layer Properties:**
+
 ```typescript
 {
   id: string,              // Unique GUID (22 chars base64)
@@ -965,6 +1022,7 @@ function setPosition(transform, x, y) {
 ```
 
 **Layer Types (`_t` field):**
+
 - `RECT` - Rectangle
 - `OVAL` - Oval
 - `TEXT` - Text layer
@@ -986,12 +1044,14 @@ function setPosition(transform, x, y) {
 **CRITICAL:** Colors in FREE format are 32-bit ARGB (Alpha-Red-Green-Blue) strings.
 
 **Format:** 8-character hexadecimal string `"AARRGGBB"`
+
 - **AA** = Alpha (00-FF): 00=transparent, FF=opaque
 - **RR** = Red (00-FF)
 - **GG** = Green (00-FF)
 - **BB** = Blue (00-FF)
 
 **Examples:**
+
 ```javascript
 // Correct - 8 characters (ARGB)
 "color": "FFFF0000"  // ✅ Opaque red
@@ -1008,6 +1068,7 @@ function setPosition(transform, x, y) {
 ```
 
 **Common Color Values:**
+
 ```javascript
 const COLORS = {
   RED: "FFFF0000",
@@ -1024,6 +1085,7 @@ const COLORS = {
 ```
 
 **Text Layer Additional Properties:**
+
 ```typescript
 {
   _t: "TEXT",
@@ -1070,12 +1132,15 @@ const COLORS = {
 ### Common Errors
 
 **Connection Refused**
+
 ```
 Error: connect ECONNREFUSED 127.0.0.1:31415
 ```
+
 Solution: Ensure Lunacy is running and Automation API is enabled.
 
 **Invalid Layer ID**
+
 ```json
 {
   "error": true,
@@ -1085,6 +1150,7 @@ Solution: Ensure Lunacy is running and Automation API is enabled.
 ```
 
 **Invalid Format**
+
 ```json
 {
   "error": true,
@@ -1096,6 +1162,7 @@ Solution: Ensure Lunacy is running and Automation API is enabled.
 ### Error Handling Best Practices
 
 **JavaScript/Node.js:**
+
 ```javascript
 try {
   const response = await axios.get(`${API}/getselected`);
@@ -1115,6 +1182,7 @@ try {
 ```
 
 **Python:**
+
 ```python
 try:
     response = requests.get(f"{API}/getselected")
@@ -1133,10 +1201,12 @@ except Exception as e:
 ## Rate Limits
 
 **Current Limits:**
+
 - No rate limiting implemented
 - Plugins can make unlimited API calls
 
 **Best Practices:**
+
 - Batch operations when possible (e.g., update multiple layers in one request)
 - Use WebSocket events instead of polling
 - Cache layer data to minimize API calls
@@ -1263,14 +1333,17 @@ ws.on('close', () => {
 ## API Limits
 
 ### Maximum Request Size
+
 - **Image upload**: 200 MB max (`AutomationApiConstants.Limits.MaxImageSizeBytes`)
 - **JSON requests**: No specific limit, but reasonable sizes recommended
 
 ### Timeouts
+
 - No server-side timeouts implemented
 - Plugin timeout configured in `plugin.jsonc` per command (default: varies)
 
 ### Concurrent Requests
+
 - Multiple requests from same plugin allowed
 - No rate limiting currently implemented
 
@@ -1283,6 +1356,7 @@ ws.on('close', () => {
 ## Support
 
 For questions and issues:
+
 - GitHub Issues: [icons8/lunacy-plugins](https://github.com/icons8/lunacy-plugins)
 - Discord: Plugin development channel
 - Documentation: [Lunacy Documentation](https://lunacy.docs.icons8.com)

@@ -12,22 +12,22 @@ A clear and concise description of what the bug is.
 
 ## Plugin Information
 
-- **Plugin Name:** 
-- **Plugin Version:** 
+- **Plugin Name:**
+- **Plugin Version:**
 - **Plugin Location:** (examples/ or featured-plugins/)
 
 ## Environment
 
-- **Lunacy Version:** 
+- **Lunacy Version:**
 - **Operating System:** (Linux/Windows/macOS)
-- **OS Version:** 
+- **OS Version:**
 - **Runtime:** (Node.js/Python/C# version)
 
 ## Steps to Reproduce
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Expected Behavior
 

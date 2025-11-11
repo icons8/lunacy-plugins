@@ -85,18 +85,22 @@ Shows LLM prompts, responses, and operation details in console.
 4. Auto Layout configured automatically
 
 **Requirements:**
+
 - Must select a FRAME (not GROUP or SECTION)
 - FRAME should contain child layers to organize
 
 ## How It Works
 
 ### Step 1: Extract Layers
+
 Plugin reads all child layers from the selected FRAME, including their positions, sizes, types, and text content.
 
 ### Step 2: Capture Screenshot
+
 Takes a visual snapshot of the layers for AI analysis.
 
 ### Step 3: AI Analysis
+
 LLM examines the screenshot and layer data to determine:
 
 - **Stacked vs Overlapping** - Identifies which elements flow vs overlap
@@ -110,6 +114,7 @@ LLM examines the screenshot and layer data to determine:
 - **Grouping** - Which layers belong together semantically
 
 ### Step 4: Apply Configuration
+
 Plugin rebuilds the FRAME structure:
 
 1. Creates semantic groups (FRAMEs with Auto Layout or simple GROUPs)
@@ -119,7 +124,9 @@ Plugin rebuilds the FRAME structure:
 5. Orders elements properly
 
 ### Step 5: Result
+
 You get a fully configured Auto Layout that:
+
 - Adapts when content changes
 - Maintains proper spacing
 - Aligns elements consistently
@@ -128,6 +135,7 @@ You get a fully configured Auto Layout that:
 ## Example
 
 **Before:**
+
 - FRAME with 8 unorganized layers
 - Email label at Y=118
 - Email input at Y=143
@@ -138,7 +146,8 @@ You get a fully configured Auto Layout that:
 - Etc.
 
 **After:**
-```
+
+```text
 FRAME (Auto Layout: vertical, spacing: 16px, padding: 20px)
 ├─ Email Field (FRAME with Auto Layout: vertical, spacing: 8px)
 │  ├─ Email Label (layoutStretch: false)
@@ -153,6 +162,7 @@ FRAME (Auto Layout: vertical, spacing: 16px, padding: 20px)
 ```
 
 Auto Layout configuration:
+
 - **Orientation:** Vertical (stacks elements top to bottom)
 - **Spacing:** 16px between groups
 - **Padding:** 20px all sides
@@ -178,6 +188,7 @@ These configure the main Auto Layout behavior:
 | `verticalSizing` | 0=hug, 1=fixed | Height behavior |
 
 **Alignment mapping:**
+
 - Vertical layout: `primaryAlignment` → vertical position, `counterAlignment` → horizontal position
 - Horizontal layout: `primaryAlignment` → horizontal position, `counterAlignment` → vertical position
 
@@ -192,6 +203,7 @@ These control individual layer behavior:
 | `layoutFixPosX/Y` | pixels | Absolute position (only if `layoutFixPos=true`) |
 
 **Common patterns:**
+
 - Text inputs: `layoutStretch: true` (fill width)
 - Labels: `layoutStretch: false` (fixed size)
 - Buttons: `layoutStretch: true` or `false` depending on design
@@ -200,34 +212,41 @@ These control individual layer behavior:
 ## Troubleshooting
 
 **"Please select layers to optimize"**
+
 - You must select a FRAME that contains child layers
 - Empty FRAMEs cannot be optimized
 
 **"Auto Layout requires a parent FRAME container ID"**
+
 - This plugin only works on FRAME objects
 - Convert GROUP or SECTION to FRAME first
 
 **"Parent container is GROUP, not FRAME"**
+
 - Auto Layout is only supported on FRAME objects in Lunacy
 - Right-click container → Convert to Frame
 
 **"API key not configured"**
+
 - Set `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` in `plugin.jsonc`
 - Ensure `LLM_PROVIDER` matches your chosen provider
 - Remove placeholder text like "your-anthropic-key-here"
 
 **"LLM ERROR" or fallback layout used**
+
 - Check API key validity and account credits
 - Verify internet connection
 - Try different model or switch AI provider
 - Enable `DEBUG=1` to see detailed error messages
 
 **Plugin timeout**
+
 - Default timeout is 60 seconds
 - Increase `timeoutMs` in `plugin.jsonc` if needed
 - Complex layouts with many layers may take longer
 
 **Unexpected layout results**
+
 - Enable `DEBUG=1` to see AI reasoning
 - Check screenshot quality (visible in debug output)
 - Verify layer names and structure are clear

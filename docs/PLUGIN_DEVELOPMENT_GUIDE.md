@@ -2,21 +2,24 @@
 
 A comprehensive guide for developing Lunacy plugins using the HTTP Automation API.
 
-##  Quick Start
+## Quick Start
 
 ### Plugin Configuration
+
 Create your plugin in its own directory within Lunacy's plugins folder:
 
 **Plugin Directory Structure:**
+
 - **Linux**: `~/.local/share/Icons8/Lunacy/Plugins/your-plugin-name/plugin.jsonc`
 - **Windows**: `%APPDATA%\Icons8\Lunacy\Plugins\your-plugin-name\plugin.jsonc`
 - **macOS**: `~/Library/Application Support/Icons8/Lunacy/Plugins/your-plugin-name/plugin.jsonc`
 
-##  Plugin Lifecycle Modes
+## Plugin Lifecycle Modes
 
 Lunacy supports two distinct plugin lifecycle modes:
 
 ### **🔧 Utility Mode (Default)**
+
 **Duration:** Runs only when user triggers commands  
 **Use cases:** Quick tools, exports, format operations
 
@@ -45,6 +48,7 @@ Lunacy supports two distinct plugin lifecycle modes:
 ```
 
 ### **🖥️ Service Mode**
+
 **Duration:** Runs continuously from Lunacy startup until shutdown  
 **Use cases:** Background monitoring, real-time sync, WebSocket processing
 
@@ -96,20 +100,24 @@ Lunacy supports two distinct plugin lifecycle modes:
 
 Lunacy provides two separate APIs for different purposes:
 
-### **HTTP Automation API** 
+### **HTTP Automation API**
+
 - **Port:** `31415` (default, auto-increments if busy)
 - **URL:** `http://localhost:31415`
 - **Purpose:** REST API for data operations (CRUD, export, screenshots)
 - **Available to:** Both utility and service plugins
 
 ### **WebSocket Events API**
-- **Port:** `31416` (default, auto-increments if busy) 
+
+- **Port:** `31416` (default, auto-increments if busy)
 - **URL:** `ws://localhost:31416`
 - **Purpose:** Real-time event streaming (selection, undo, document events)
 - **Available to:** Service plugins only
 
 #### **Event Subscription**
+
 Service plugins declare required events in `plugin.jsonc`:
+
 ```jsonc
 {
   "lifecycle": "Service",
@@ -121,14 +129,17 @@ Service plugins declare required events in `plugin.jsonc`:
 #### **Available Event Types**
 
 ##### 1️⃣ **SelectionEvent** (`"selection"`)
+
 Fired when user changes layer selection in the document.
 
 **When fired:**
+
 - User selects/deselects layers
 - Selection changes via API
 - Switching between layers
 
 **JSON Structure:**
+
 ```json
 {
   "type": "selection",
@@ -143,6 +154,7 @@ Fired when user changes layer selection in the document.
 ```
 
 **Fields:**
+
 - `type` (string, required): Always `"selection"`
 - `timestamp` (string, required): ISO 8601 UTC timestamp
 - `selected_layers` (array, required): Array of selected layers (empty array if nothing selected)
@@ -150,15 +162,18 @@ Fired when user changes layer selection in the document.
   - `name` (string, required): Layer display name
 
 ##### 2️⃣ **UndoEvent** (`"undo"`)
+
 Fired when undo/redo operation occurs, includes information about affected layers.
 
 **When fired:**
+
 - User creates/modifies/deletes layers
 - Undo operation (Ctrl+Z)
 - Redo operation (Ctrl+Shift+Z)
 - Any operation that modifies document state
 
 **JSON Structure:**
+
 ```json
 {
   "type": "undo",
@@ -176,6 +191,7 @@ Fired when undo/redo operation occurs, includes information about affected layer
 ```
 
 **Fields:**
+
 - `type` (string, required): Always `"undo"`
 - `timestamp` (string, required): ISO 8601 UTC timestamp
 - `operation_type` (string, required): Type of operation
@@ -191,15 +207,18 @@ Fired when undo/redo operation occurs, includes information about affected layer
     - Common types: `"RECT"`, `"OVAL"`, `"TEXT"`, `"PATH"`, `"GROUP"`, `"FRAME"`, `"COMPONENT"`, `"INSTANCE"`, `"SHAPE"`, `"SECTION"`
 
 ##### 3️⃣ **DocumentEvent** (`"document"`)
+
 Fired when document lifecycle changes (open, close, activate, deactivate).
 
 **When fired:**
+
 - Document tab becomes active
 - Document tab becomes inactive (switching tabs)
 - Document opens (future)
 - Document closes (future)
 
 **JSON Structure:**
+
 ```json
 {
   "type": "document",
@@ -212,6 +231,7 @@ Fired when document lifecycle changes (open, close, activate, deactivate).
 ```
 
 **Fields:**
+
 - `type` (string, required): Always `"document"`
 - `timestamp` (string, required): ISO 8601 UTC timestamp
 - `document_type` (string, required): Type of document event
@@ -222,14 +242,17 @@ Fired when document lifecycle changes (open, close, activate, deactivate).
 - `document_path` (string, optional): Full file path for local documents or URL for cloud documents
 
 ##### 4️⃣ **WindowEvent** (`"window"`)
+
 Fired when Lunacy window state changes (focus, minimize, fullscreen, closing).
 
 **When fired:**
+
 - Window gains or loses focus
 - Window minimized/restored/fullscreen
 - Window is about to close
 
 **JSON Structure:**
+
 ```json
 {
   "type": "window",
@@ -240,6 +263,7 @@ Fired when Lunacy window state changes (focus, minimize, fullscreen, closing).
 ```
 
 **Fields:**
+
 - `type` (string, required): Always `"window"`
 - `timestamp` (string, required): ISO 8601 UTC timestamp
 - `event_type` (string, required): Type of window event
@@ -257,6 +281,7 @@ Fired when Lunacy window state changes (focus, minimize, fullscreen, closing).
 #### **Event Examples**
 
 **SelectionEvent Example:**
+
 ```json
 {
   "type": "selection",
@@ -268,6 +293,7 @@ Fired when Lunacy window state changes (focus, minimize, fullscreen, closing).
 ```
 
 **UndoEvent Example:**
+
 ```json
 {
   "type": "undo",
@@ -281,6 +307,7 @@ Fired when Lunacy window state changes (focus, minimize, fullscreen, closing).
 ```
 
 **DocumentEvent Example:**
+
 ```json
 {
   "type": "document",
@@ -293,6 +320,7 @@ Fired when Lunacy window state changes (focus, minimize, fullscreen, closing).
 ```
 
 **WindowEvent Examples:**
+
 ```json
 {
   "type": "window",
@@ -319,11 +347,14 @@ Fired when Lunacy window state changes (focus, minimize, fullscreen, closing).
 ```
 
 ### **Port Assignment Logic**
+
 Both servers automatically search for available ports starting from their defaults:
+
 - HTTP API: tries 31415, 31416, 31417... (up to 31515)
 - WebSocket API: tries 31416, 31417, 31418... (up to 31516)
 
 **Important:** WebSocket port is separate from HTTP API port!
+
 - ❌ Wrong: `ws://localhost:31415` (this is HTTP API port, not WebSocket)
 - ✅ Correct: `ws://localhost:31416` (WebSocket events port)
 
@@ -363,6 +394,7 @@ async function connectToWebSocket() {
 ```
 
 **Example Plugins:**
+
 - See the [examples directory](../examples/) for working plugin implementations
 
 ## 🌐 Lunacy HTTP Automation API
@@ -370,6 +402,7 @@ async function connectToWebSocket() {
 **Base URL**: `http://localhost:31415`
 
 ### Read Operations
+
 | Endpoint | Method | Purpose | Response |
 |----------|--------|---------|----------|
 | `/getselected` | GET | Get selected layers | JSON (single layer or array) |
@@ -379,6 +412,7 @@ async function connectToWebSocket() {
 | `/getundostack` | GET | Get undo history | JSON array |
 
 ### Screenshots  
+
 | Endpoint | Method | Purpose | Request Body | Response |
 |----------|--------|---------|--------------|----------|
 | `/getscreenshotbyid` | POST | Screenshot of layers | JSON array of layer IDs | Binary image data + headers |
@@ -386,12 +420,14 @@ async function connectToWebSocket() {
 | `/getscreenshotarea` | POST | Screenshot of area | ScreenshotAreaRequest | Binary image data + headers |
 
 ### Layer Queries
+
 | Endpoint | Method | Purpose | Request Body | Response |
 |----------|--------|---------|--------------|----------|
 | `/getlayersinarea` | POST | Layers in area | GetLayersInAreaRequest | JSON array (FREE format) |
 | `/getlayersbyids` | POST | Layer data by IDs | string[] (array of IDs) | JSON array (FREE format) |
 
 ### Modification Operations
+
 | Endpoint | Method | Purpose | Request Body | Response |
 |----------|--------|---------|--------------|----------|
 | `/setselected` | POST | Change selection | FREE layers array (JSON) | Success/error message |
@@ -409,12 +445,14 @@ async function connectToWebSocket() {
 #### Layer Modification Requests
 
 **For `/setselected` and `/updatelayers`** - Direct JSON format:
+
 - **Content-Type**: `application/json`
 - **Body**: Array of FREE format layers directly
 - **Format**: `[{layer1}, {layer2}, ...]` or `{single_layer}`
 - **Example**: `[{"_t": "RECT", "id": "abc123", "fills": [{"color": "FFFF0000"}]}]`
 
 **For `/createlayers`** - CreateLayersRequest format:
+
 - **Content-Type**: `application/json`  
 - **Body**: JSON object with `layersJson` field (as STRING) and optional `parentId`
 - **Format**: `{"parentId": "parent-id", "layersJson": "serialized FREE format layers"}`
@@ -422,12 +460,15 @@ async function connectToWebSocket() {
 - **IMPORTANT:** `layersJson` is a JSON STRING, not an object!
 
 #### Selection Response Format
+
 - **Single layer selected**: Returns layer directly `{_t: "FRAME", id: "...", ...}`
 - **Multiple layers**: Returns array `[{_t: "FRAME", ...}, {...}]`
 - **Nothing selected**: Returns `{}` (empty object)
 
 #### Export Response Format
+
 Export returns JSON with byte array file data:
+
 ```jsonc
 [
   {
@@ -440,7 +481,9 @@ Export returns JSON with byte array file data:
 ```
 
 #### Screenshot Response Headers
+
 Screenshot endpoints return binary image data with metadata in headers:
+
 - `X-Screenshot-AbsoluteX` - X coordinate of screenshot
 - `X-Screenshot-AbsoluteY` - Y coordinate of screenshot  
 - `X-Screenshot-Width` - Width of screenshot
@@ -455,6 +498,7 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 ### Request Objects
 
 #### ExportRequest (POST `/export`)
+
 ```json
 {
   "layerIds": ["layer-id-1", "layer-id-2"],
@@ -465,6 +509,7 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 ```
 
 **Fields:**
+
 - `layerIds` - Array of layer IDs to export (required)
 - `format` - Export format: "PNG", "SVG", "PDF", "JPG", "WEBP", "TIFF", "ICO" (default: "PNG")
 - `scale` - Scale factor for export (default: 1.0)
@@ -473,16 +518,19 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 #### Command Configuration Fields
 
 **Timeout Behavior:**
+
 - `timeoutMs` - Command timeout in milliseconds (optional)
 - **If specified**: Plugin will be terminated after this time
 - **If not specified**: Plugin runs indefinitely until completion
 - **Example values**: 30000 (30s), 120000 (2min), 600000 (10min)
 
 **Environment Variables:**
+
 - `env` - Custom environment variables for plugin process (optional)
 - **Format**: Object with string key-value pairs
 - **Usage**: Set PATH, runtime-specific variables, or custom configuration
 - **Example**:
+
   ```json
   {
     "env": {
@@ -491,10 +539,12 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
     }
   }
   ```
+
 - **Available for**: Both `commands` and `serviceCommand`
 - **Behavior**: Variables are merged with system environment (custom values override system defaults)
 
 #### Direct JSON Arrays (POST `/setselected`, `/updatelayers`)
+
 ```json
 [
   {
@@ -508,10 +558,12 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 
 **Format**: Array of FREE format layers (or single layer for one item)
 **Usage:**
+
 - **`/setselected`**: Replaces current selection with provided layers
 - **`/updatelayers`**: Updates existing layers by their IDs with new properties
 
 #### CreateLayersRequest (POST `/createlayers` only)
+
 ```json
 {
   "parentId": "parent-layer-id",
@@ -520,12 +572,14 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 ```
 
 **Fields:**
+
 - `parentId` - ID of parent layer/frame (optional, null = root)
 - `layersJson` - JSON string with layers in FREE format (required)
 
 **Usage**: Creates new layers under the specified parent
 
 #### DuplicateLayersRequest (POST `/duplicatelayers`)
+
 ```json
 {
   "layerIds": ["layer-id-1", "layer-id-2"],
@@ -536,14 +590,16 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 ```
 
 **Fields:**
+
 - `layerIds` - Array of layer IDs to duplicate (required)
 - `offsetX` - Horizontal offset in pixels (optional, default: 10)
-- `offsetY` - Vertical offset in pixels (optional, default: 10) 
+- `offsetY` - Vertical offset in pixels (optional, default: 10)
 - `componentsToInstances` - Convert components to instances (optional, default: true)
 
 **Usage**: Duplicates existing layers with offset positioning
 
 #### ShowToastRequest (POST `/showtoast`)
+
 ```json
 {
   "text": "Plugin completed successfully!",
@@ -557,6 +613,7 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 ```
 
 **Fields:**
+
 - `text` - The text message to display in the toast (required)
 - `iconType` - Icon type: 0=None, 1=Copy, 2=CheckDone, 3=Document, 4=Warning, 5=Update, 6=Love, 7=Human, 8=Trash, 9=Smile, 10=CloudDisconnect, 11=Message, 12=Copyright, 13=Stars (default: 0)
 - `priority` - Priority level (higher numbers show first, default: 5)
@@ -566,6 +623,7 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 - `isAttention` - Whether this is an attention-grabbing toast (default: false)
 
 #### GetLayersInAreaRequest (POST `/getlayersinarea`)
+
 ```json
 {
   "x": 100,
@@ -577,6 +635,7 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 ```
 
 **Fields:**
+
 - `x` - X coordinate of area top-left corner
 - `y` - Y coordinate of area top-left corner
 - `width` - Width of search area
@@ -584,6 +643,7 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 - `maxDepth` - Maximum hierarchy depth to traverse (default: 1)
 
 #### ScreenshotAreaRequest (POST `/getscreenshotarea`)
+
 ```json
 {
   "x": 100,
@@ -594,6 +654,7 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 ```
 
 **Fields:**
+
 - `x` - X coordinate of screenshot area top-left corner
 - `y` - Y coordinate of screenshot area top-left corner
 - `width` - Width of screenshot area
@@ -602,6 +663,7 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 ### Response Objects
 
 #### ExportResult[] (from `/export`)
+
 ```json
 [
   {
@@ -614,12 +676,14 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 ```
 
 **Fields:**
+
 - `layerId` - ID of exported layer
 - `fileName` - Generated filename for export
 - `contentType` - MIME type of exported file
 - `data` - Byte array with file content (automatically converted to Buffer in Node.js)
 
 #### DuplicateLayersResponse (from `/duplicatelayers`)
+
 ```json
 {
   "DuplicatedLayerIds": ["new-id-1", "new-id-2"],
@@ -628,17 +692,20 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 ```
 
 **Fields:**
+
 - `DuplicatedLayerIds` - Array of IDs for newly created duplicate layers
 - `Message` - Status message describing the operation result
 
 **Usage**: Returns IDs of duplicated layers for subsequent operations
 
 #### String Array (for various endpoints)
+
 ```json
 ["id1", "id2", "id3"]
 ```
 
 Used for:
+
 - `/getlayersbyids` - Request body with array of IDs
 - `/deletelayers` - Request body with array of layer IDs to delete
 - Various responses containing ID lists
@@ -724,6 +791,7 @@ class Fill
 ```
 
 **For Development (plugin.jsonc):**
+
 ```jsonc
 {
   "id": "my-csharp-plugin",
@@ -742,6 +810,7 @@ class Fill
 ```
 
 **For Production (plugin.jsonc):**
+
 ```jsonc
 {
   "id": "my-csharp-plugin",
@@ -1181,6 +1250,7 @@ async function redoLastOperation() {
     }
 }
 ```
+
 ```
 
 ## 🔧 Development Workflow
@@ -1225,6 +1295,7 @@ pip install requests
 ```
 
 #### For Service Plugins (Background Services)
+
 ```bash
 # Create service plugin directory
 mkdir -p ~/.local/share/Icons8/Lunacy/Plugins/my-service-plugin
@@ -1268,6 +1339,7 @@ chmod +x service.py
 ```
 
 **Service plugins start automatically** when Lunacy launches and run continuously in the background.
+
 ```
 
 #### Example: Using Custom Environment Variables
@@ -1299,12 +1371,14 @@ For plugins that require custom runtime paths or environment configuration:
 ```
 
 **Common use cases for custom environment variables:**
+
 - **Custom runtime paths**: Set `PATH` for specific Node.js, Python, or .NET versions
 - **SDK locations**: `DOTNET_ROOT`, `JAVA_HOME`, `GOROOT`
 - **Runtime behavior**: `NODE_ENV`, `PYTHONUNBUFFERED`, `DOTNET_CLI_TELEMETRY_OPTOUT`
 - **Plugin-specific config**: Custom variables for your plugin's configuration
 
 ### 2. **Test API Connectivity**
+
 ```bash
 # Test if Lunacy HTTP API is running
 curl http://localhost:31415/getselected
@@ -1336,23 +1410,27 @@ curl -X POST http://localhost:31415/export \
 ```
 
 ### 3. **Develop Plugin Logic**
+
 - Start with the template above
 - Add your custom logic for processing objects
 - Test directly: `node my-plugin.js` or `python my-plugin.py`
 
 ### 4. **Create Plugin Configuration**
+
 - Create plugin directory with `plugin.jsonc` file
 - Set correct `workingDirectory` path
 - Define command arguments
 
 ### 5. **Test in Lunacy**
 
-#### For Utility Plugins:
+#### For Utility Plugins
+
 - Select some objects/artboards in Lunacy
 - Use plugin from menu: Plugins → [Your Plugin Name] → [Command Name]
 - Check console output and exported files
 
-#### For Service Plugins:
+#### For Service Plugins
+
 - **Auto-start**: Service automatically starts when Lunacy opens
 - **Manual commands**: Use menu commands while service runs in background
 - **Logs**: Check service.log file for monitoring activity
@@ -1363,38 +1441,45 @@ curl -X POST http://localhost:31415/export \
 ### Common Issues
 
 **"Connection refused"**
+
 - Ensure Lunacy is running
 - Verify HTTP Automation API server is enabled (check Lunacy preferences)
 - Test with: `curl http://localhost:31415/getselected`
 
 **"No layers selected"**  
+
 - Select layers in Lunacy before running plugin
 - For exports, select artboards/frames (`_t: "FRAME"`)
 
 **"Export files corrupted"**
+
 - Export data is byte array, not string
 - In Node.js: `Buffer.from(result.data)`
 - In Python: `bytes(result["data"])`
 - In C#: `result.Data` is already `byte[]`
 
 **"Plugin not in menu"**
+
 - Check JSON syntax in `plugin.jsonc`
 - Verify `workingDirectory` path exists
 - Restart Lunacy after configuration changes
 
 **"Service plugin not starting"**
+
 - Check plugin configuration for service lifecycle mode (`"lifecycle": "Service"`)
 - Verify `serviceCommand` is defined with valid executable
 - Check plugin logs for startup errors
 - Service plugins start automatically with Lunacy
 
 **"Service plugin stopping unexpectedly"**
+
 - Check service.log for error messages
 - Ensure service handles signals gracefully (SIGTERM, SIGINT)
 - Verify long-running loop doesn't exit on API errors
 - Check that service executable has proper permissions
 
 **"Endpoint not found" (404) for layer operations**
+
 - ❌ Wrong: `/setselection` endpoint name (should be `/setselected`)
 - ❌ Wrong: Using LayersJsonRequest wrapper for `/setselected`/`/updatelayers`
 - ✅ Correct: Direct JSON array for `/setselected` and `/updatelayers`
