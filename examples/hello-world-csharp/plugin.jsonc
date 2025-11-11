@@ -1,0 +1,15 @@
+{
+  "id": "hello-world-csharp",
+  "name": "Hello World (C#)",
+  "description": "Your first Lunacy plugin in C#",
+  "version": "1.0.0",
+  "commands": [
+    {
+      "id": "say-hello",
+      "name": "Say Hello",
+      "executable": "dotnet",
+      "args": ["run", "--project", "HelloWorld.csproj"],
+      "timeoutMs": 10000
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+name: Validate Documentation Links
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sunday
+
+jobs:
+  markdown-link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Check links in markdown files
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'no'
+          config-file: '.github/workflows/mlc_config.json'
+          
+  markdown-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Lint markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v11
+        with:
+          globs: |
+            **/*.md
+            !node_modules

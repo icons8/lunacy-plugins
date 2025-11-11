@@ -1,0 +1,15 @@
+{
+  "id": "hello-world-node",
+  "name": "Hello World (Node.js)",
+  "description": "Your first Lunacy plugin in Node.js",
+  "version": "1.0.0",
+  "commands": [
+    {
+      "id": "say-hello",
+      "name": "Say Hello",
+      "executable": "node",
+      "args": ["hello.js"],
+      "timeoutMs": 5000
+    }
+  ]
+}

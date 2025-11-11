@@ -1,0 +1,26 @@
+{
+  "id": "ai-layout-optimizer",
+  "name": "AI Layout Optimizer",
+  "description": "AI-powered layout optimization with Auto Layout, grouping, and smart naming",
+  "version": "1.0.0",
+  "lifecycle": "utility",
+  "commands": [
+    {
+      "id": "optimize-layout",
+      "name": "Optimize Layout",
+      "description": "Analyze and optimize FRAME with Auto Layout, semantic grouping, and layer renaming",
+      "executable": "python3",
+      "args": ["ai_layout.py"],
+      "timeoutMs": 60000,
+      "env": {
+        "LLM_PROVIDER": "anthropic",
+        "ANTHROPIC_API_KEY": "your-anthropic-key-here",
+        "ANTHROPIC_MODEL": "claude-haiku-4-5-20251001",
+        "OPENAI_API_KEY": "your-openai-key-here",
+        "OPENAI_MODEL": "gpt-4o-mini",
+        "OPENAI_MODEL_VISION": "gpt-4o",
+        "DEBUG": "0"
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "bitmap-to-vector-plugin",
+  "name": "Bitmap to Vector Converter",
+  "description": "Convert bitmap images to vector graphics using VTracer",
+  "version": "2.0.0",
+  "lifecycle": "Service",
+  "events": ["plugin_initialized", "show_ui", "close_ui"],
+  "serviceCommand": {
+    "id": "run-service",
+    "name": "Run Vectorization Service",
+    "executable": "python3",
+    "args": ["vectorize_ui.py"]
+  }
+}

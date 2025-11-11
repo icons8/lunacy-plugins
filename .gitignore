@@ -1,0 +1,78 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.npm
+.eslintcache
+
+# C#
+bin/
+obj/
+*.user
+*.suo
+*.userprefs
+.vs/
+*.dll
+*.exe
+!examples/**/bin/*.exe
+!featured-plugins/**/bin/*.exe
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+.directory
+
+# Plugin-specific
+*.log
+.env
+.env.local
+config.local.json
+temp/
+tmp/
+screenshots/
+exports/
+
+# VTracer binaries (will be downloaded automatically)
+**/vtracer
+**/vtracer.exe
+
+# API keys (security)
+**/secrets.json
+**/*-secret-*.json
