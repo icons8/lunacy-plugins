@@ -1437,7 +1437,7 @@ If you're still stuck after trying these solutions:
    - Steps to reproduce
 
 4. **Ask for help:**
-   - GitHub Issues: [lunacy-plugins](https://github.com/lunacy-plugins)
+   - GitHub Issues: [icons8/lunacy-plugins](https://github.com/icons8/lunacy-plugins)
    - Discord: Plugin development channel
    - Include all diagnostic information
 
@@ -1446,4 +1446,4 @@ If you're still stuck after trying these solutions:
 - [Plugin Development Guide](./PLUGIN_DEVELOPMENT_GUIDE.md)
 - [API Reference](./API_REFERENCE.md)
 - [Best Practices](./BEST_PRACTICES.md)
-- [Examples](./examples/)
+- [Examples](../examples/)

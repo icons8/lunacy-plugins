@@ -8,7 +8,7 @@ Thank you for your interest in contributing! This document provides guidelines f
 
 Found a bug or have a feature request?
 
-- Check [existing issues](https://github.com/icons8/lunacy-plugins/issues) first
+- Check existing issues first
 - Use issue templates for bug reports and feature requests
 - Provide clear description, steps to reproduce, and environment details
 

@@ -1758,8 +1758,8 @@ Now that you understand UI plugins, you can:
 
 - [Plugin Development Guide](./PLUGIN_DEVELOPMENT_GUIDE.md) - Complete reference
 - [API Reference](./API_REFERENCE.md) - All endpoints documented
-- [UI Design Guide](./UI_DESIGN_GUIDE.md) - Best practices for plugin UI
-- [Examples Directory](./examples/) - More working examples
+- [Plugin UI Guide](./PLUGIN_UI_GUIDE.md) - Best practices for plugin UI
+- [Examples Directory](../examples/) - More working examples
 
 ---
 

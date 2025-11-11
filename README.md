@@ -76,7 +76,7 @@ Convert raster images to scalable vector graphics with interactive UI and smart 
 - Background service mode
 - Auto-downloads VTracer tool
 
-→ [View Plugin](./featured-plugins/bitmap-to-vector/)
+→ [View Plugin](./featured-plugins/bitmap-to-vector-plugin/)
 
 ## Examples
 

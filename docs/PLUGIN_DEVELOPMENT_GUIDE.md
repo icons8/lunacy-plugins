@@ -363,11 +363,7 @@ async function connectToWebSocket() {
 ```
 
 **Example Plugins:**
-- [`selection-monitor/`](./examples/selection-monitor/) - Selection event monitoring
-- [`undo-events-monitor/`](./examples/undo-events-monitor/) - Undo/redo event logging
-- [`document-events-monitor/`](./examples/document-events-monitor/) - Document lifecycle tracking
-- [`window-events-logger/`](./examples/window-events-logger/) - Window state monitoring (C#)
-- [`layer-events-monitor/`](./examples/layer-events-monitor/) - Combined undo + selection monitoring
+- See the [examples directory](../examples/) for working plugin implementations
 
 ## 🌐 Lunacy HTTP Automation API
 
@@ -1476,4 +1472,4 @@ node my-plugin.js /tmp PNG
 
 ---
 
-**Ready to build?** Check out the [working examples](./examples/) for complete implementation details!
+**Ready to build?** Check out the [working examples](../examples/) for complete implementation details!

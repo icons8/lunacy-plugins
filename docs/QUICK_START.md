@@ -343,7 +343,7 @@ Check out the **[UI Plugin Quick Start Guide](./QUICK_START_UI.md)** to learn ho
 - [UI Plugin Quick Start](./QUICK_START_UI.md) - Interactive plugins with UI
 - [Plugin Development Guide](./PLUGIN_DEVELOPMENT_GUIDE.md) - Complete guide with all features
 - [API Reference](./API_REFERENCE.md) - Full API documentation
-- [Examples](./examples/) - Working examples for inspiration
+- [Examples](../examples/) - Working examples for inspiration
 
 ## Troubleshooting
 

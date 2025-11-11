@@ -1278,4 +1278,4 @@ When implementing preset system:
 - [Plugin Development Guide](./PLUGIN_DEVELOPMENT_GUIDE.md) - Complete REST API reference
 - [API Reference](./API_REFERENCE.md) - Full endpoint documentation
 - [Best Practices](./BEST_PRACTICES.md) - Development patterns
-- [Examples](./examples/) - Working plugin examples
+- [Examples](../examples/) - Working plugin examples

@@ -921,7 +921,7 @@ for (let i = 0; i < items.length; i++) {
 }
 ```
 
-See [UI_DESIGN_GUIDE.md](./UI_DESIGN_GUIDE.md) for complete UI reference.
+See [PLUGIN_UI_GUIDE.md](./PLUGIN_UI_GUIDE.md) for complete UI reference.
 
 ---
 
@@ -1277,7 +1277,7 @@ process.on('SIGTERM', () => {
 
 - [Plugin Development Guide](./PLUGIN_DEVELOPMENT_GUIDE.md) - Complete development guide
 - [API Reference](./API_REFERENCE.md) - Full API documentation
-- [Examples](./examples/) - Working plugin examples
+- [Examples](../examples/) - Working plugin examples
 - [Troubleshooting Guide](./TROUBLESHOOTING.md) - Common issues and solutions
 
 ## Summary

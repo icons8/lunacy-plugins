@@ -1278,12 +1278,11 @@ ws.on('close', () => {
 
 - [Plugin Development Guide](./PLUGIN_DEVELOPMENT_GUIDE.md) - Complete guide for building plugins
 - [Quick Start](./QUICK_START.md) - Build your first plugin in 5 minutes
-- [Examples](./examples/) - Working plugin examples
-- [Plugin Architecture](./PLUGIN_ARCHITECTURE.md) - Plugin system architecture
+- [Examples](../examples/) - Working plugin examples
 
 ## Support
 
 For questions and issues:
-- GitHub Issues: [lunacy-plugins organization](https://github.com/lunacy-plugins)
+- GitHub Issues: [icons8/lunacy-plugins](https://github.com/icons8/lunacy-plugins)
 - Discord: Plugin development channel
-- Documentation: [Lunacy Plugin Docs](https://lunacy.docs.io/plugins)
+- Documentation: [Lunacy Documentation](https://lunacy.docs.icons8.com)

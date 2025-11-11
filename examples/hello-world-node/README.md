@@ -46,7 +46,7 @@ This simple plugin shows a toast notification with a "Hello World" message.
 
 ## Next Steps
 
-Check out the [Quick Start Guide](../../QUICK_START.md) for more features like:
+Check out the [Quick Start Guide](../../docs/QUICK_START.md) for more features like:
 - Working with selected layers
 - Modifying layer properties
 - Exporting layers
