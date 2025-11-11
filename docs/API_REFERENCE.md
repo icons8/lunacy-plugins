@@ -152,7 +152,8 @@ The layer modification endpoints use **different request formats**:
 | `/updatelayers` | **Direct layer array** | `[{...}, {...}]` |
 | `/setselected` | **Direct layer array or single layer** | `[{...}]` or `{...}` |
 
-**Key difference:** Only `/createlayers` uses a wrapper object with `layersJson` as a **JSON string**. The other endpoints accept layer objects directly.
+**Key difference:** Only `/createlayers` uses a wrapper object with `layersJson` as a **JSON string**.
+The other endpoints accept layer objects directly.
 
 #### POST /createlayers
 
@@ -631,7 +632,8 @@ Connect to WebSocket server for real-time events.
 ws://localhost:31416
 ```
 
-**Note:** WebSocket server runs on port **31416** (HTTP API is on 31415). If port 31416 is busy, server auto-increments (31417, 31418, etc.).
+**Note:** WebSocket server runs on port **31416** (HTTP API is on 31415). If port 31416 is busy,
+server auto-increments (31417, 31418, etc.).
 
 **Port Discovery:**
 

@@ -1,6 +1,7 @@
 # Plugin UI Guide
 
-Complete guide to creating user interfaces for Lunacy plugins, including toast notifications, dynamic UI forms, and external applications.
+Complete guide to creating user interfaces for Lunacy plugins, including toast notifications,
+dynamic UI forms, and external applications.
 
 ## Table of Contents
 

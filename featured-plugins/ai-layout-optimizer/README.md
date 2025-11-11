@@ -1,6 +1,7 @@
 # AI Layout Optimizer
 
-AI-powered Auto Layout configuration plugin for Lunacy. Analyzes your design visually and configures Auto Layout with intelligent grouping, spacing, and alignment.
+AI-powered Auto Layout configuration plugin for Lunacy. Analyzes your design visually and configures
+Auto Layout with intelligent grouping, spacing, and alignment.
 
 ## What It Does
 

@@ -55,7 +55,8 @@ Choose **one** language below. All implementations are fully working and tested.
 - **Python** - Easy to read, great for prototyping, extensive libraries
 - **C#** - Best performance when compiled, strongly typed, modern features
 
-**Performance Note:** C# plugins can be compiled to native binaries for 20-30x faster startup compared to `dotnet run`. See step 6 in the C# section.
+**Performance Note:** C# plugins can be compiled to native binaries for 20-30x faster startup compared
+to `dotnet run`. See step 6 in the C# section.
 
 ---
 

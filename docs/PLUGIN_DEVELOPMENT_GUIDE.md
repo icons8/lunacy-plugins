@@ -204,7 +204,8 @@ Fired when undo/redo operation occurs, includes information about affected layer
   - `id` (string, required): Layer unique identifier
   - `name` (string, required): Layer display name
   - `type` (string, required): Layer type code
-    - Common types: `"RECT"`, `"OVAL"`, `"TEXT"`, `"PATH"`, `"GROUP"`, `"FRAME"`, `"COMPONENT"`, `"INSTANCE"`, `"SHAPE"`, `"SECTION"`
+    - Common types: `"RECT"`, `"OVAL"`, `"TEXT"`, `"PATH"`, `"GROUP"`, `"FRAME"`,
+      `"COMPONENT"`, `"INSTANCE"`, `"SHAPE"`, `"SECTION"`
 
 ##### 3️⃣ **DocumentEvent** (`"document"`)
 
@@ -493,7 +494,8 @@ Screenshot endpoints return binary image data with metadata in headers:
 
 ## 📋 API Request/Response Objects
 
-The Lunacy HTTP Automation API uses structured JSON objects for requests and responses. All field names use **camelCase** format.
+The Lunacy HTTP Automation API uses structured JSON objects for requests and responses.
+All field names use **camelCase** format.
 
 ### Request Objects
 
@@ -615,7 +617,8 @@ The Lunacy HTTP Automation API uses structured JSON objects for requests and res
 **Fields:**
 
 - `text` - The text message to display in the toast (required)
-- `iconType` - Icon type: 0=None, 1=Copy, 2=CheckDone, 3=Document, 4=Warning, 5=Update, 6=Love, 7=Human, 8=Trash, 9=Smile, 10=CloudDisconnect, 11=Message, 12=Copyright, 13=Stars (default: 0)
+- `iconType` - Icon type: 0=None, 1=Copy, 2=CheckDone, 3=Document, 4=Warning, 5=Update, 6=Love,
+  7=Human, 8=Trash, 9=Smile, 10=CloudDisconnect, 11=Message, 12=Copyright, 13=Stars (default: 0)
 - `priority` - Priority level (higher numbers show first, default: 5)
 - `durationSeconds` - Duration in seconds to show the toast (default: 7)
 - `isContinuable` - Whether the toast can be paused when user hovers over it (default: true)

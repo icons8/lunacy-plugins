@@ -260,7 +260,8 @@ curl http://localhost:31415/getselected
 - If server is running: You'll get a response (200 OK or JSON data)
 - If server is disabled: "Connection refused" error
 
-**Note:** The server will automatically enable when you add your first plugin to the plugins directory, but you can enable it manually at any time.
+**Note:** The server will automatically enable when you add your first plugin to the plugins directory,
+but you can enable it manually at any time.
 
 **Location of the setting:**
 

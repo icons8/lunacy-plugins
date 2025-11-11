@@ -2,7 +2,8 @@
 
 > Official plugin repository for Lunacy - the fast and powerful graphic design software
 
-Build powerful extensions for Lunacy using any programming language. Automate workflows, add AI features, integrate external tools, and customize your design experience.
+Build powerful extensions for Lunacy using any programming language. Automate workflows, add AI features,
+integrate external tools, and customize your design experience.
 
 ## What are Lunacy Plugins?
 
