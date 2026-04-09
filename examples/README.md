@@ -41,7 +41,7 @@ cp -r example-name ~/.local/share/Icons8/Lunacy/Plugins/
 ### Windows
 
 ```cmd
-xcopy /E /I example-name "%APPDATA%\Icons8\Lunacy\Plugins\example-name"
+xcopy /E /I example-name "%LOCALAPPDATA%\Icons8\Lunacy\Plugins\example-name"
 ```
 
 ### macOS

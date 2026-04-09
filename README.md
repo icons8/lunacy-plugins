@@ -29,7 +29,7 @@ Lunacy plugins are external programs that interact with Lunacy via HTTP Automati
 Download any plugin from this repository and place it in:
 
 - **Linux:** `~/.local/share/Icons8/Lunacy/Plugins/`
-- **Windows:** `%APPDATA%\Icons8\Lunacy\Plugins\`
+- **Windows:** `%LOCALAPPDATA%\Icons8\Lunacy\Plugins\`
 - **macOS:** `~/Library/Application Support/Icons8/Lunacy/Plugins/`
 
 ### 3. Run Your First Plugin
@@ -165,7 +165,7 @@ await fetch('http://localhost:31415/showtoast', {
 ### Windows
 
 ```cmd
-%APPDATA%\Icons8\Lunacy\Plugins\your-plugin-name\
+%LOCALAPPDATA%\Icons8\Lunacy\Plugins\your-plugin-name\
 ```
 
 ### macOS

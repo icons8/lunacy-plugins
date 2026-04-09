@@ -49,8 +49,8 @@ cd ~/.local/share/Icons8/Lunacy/Plugins/hello-world
 **Windows:**
 
 ```bash
-mkdir %APPDATA%\Icons8\Lunacy\Plugins\hello-world
-cd %APPDATA%\Icons8\Lunacy\Plugins\hello-world
+mkdir %LOCALAPPDATA%\Icons8\Lunacy\Plugins\hello-world
+cd %LOCALAPPDATA%\Icons8\Lunacy\Plugins\hello-world
 ```
 
 **macOS:**

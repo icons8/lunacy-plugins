@@ -37,10 +37,10 @@ When your plugin isn't working, check these first:
 **Windows:**
 
 ```
-%APPDATA%\Icons8\Lunacy\Plugins\your-plugin-name\
+%LOCALAPPDATA%\Icons8\Lunacy\Plugins\your-plugin-name\
 ```
 
-Example: `C:\Users\YourName\AppData\Roaming\Icons8\Lunacy\Plugins\your-plugin-name\`
+Example: `C:\Users\YourName\AppData\Local\Icons8\Lunacy\Plugins\your-plugin-name\`
 
 **macOS:**
 
@@ -140,10 +140,10 @@ Windows (PowerShell):
 
 ```powershell
 # Check if plugin directory exists
-Get-ChildItem "$env:APPDATA\Icons8\Lunacy\Plugins\"
+Get-ChildItem "$env:LOCALAPPDATA\Icons8\Lunacy\Plugins\"
 
 # Check if plugin.jsonc exists
-Test-Path "$env:APPDATA\Icons8\Lunacy\Plugins\your-plugin-name\plugin.jsonc"
+Test-Path "$env:LOCALAPPDATA\Icons8\Lunacy\Plugins\your-plugin-name\plugin.jsonc"
 ```
 
 macOS:
@@ -458,7 +458,7 @@ if (response.status !== 200) {
 
 ```powershell
 # Check file ownership
-Get-Acl "$env:APPDATA\Icons8\Lunacy\Plugins\your-plugin-name"
+Get-Acl "$env:LOCALAPPDATA\Icons8\Lunacy\Plugins\your-plugin-name"
 
 # Run PowerShell as administrator if needed
 # Right-click PowerShell > Run as administrator

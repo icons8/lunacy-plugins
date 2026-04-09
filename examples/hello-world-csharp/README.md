@@ -27,7 +27,7 @@ cp -r . ~/.local/share/Icons8/Lunacy/Plugins/hello-world-csharp
 **Windows:**
 
 ```bash
-xcopy /E /I . %APPDATA%\Icons8\Lunacy\Plugins\hello-world-csharp
+xcopy /E /I . %LOCALAPPDATA%\Icons8\Lunacy\Plugins\hello-world-csharp
 ```
 
 **macOS:**

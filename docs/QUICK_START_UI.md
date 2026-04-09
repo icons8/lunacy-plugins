@@ -70,8 +70,8 @@ mkdir -p ~/.local/share/Icons8/Lunacy/Plugins/smart-duplicate-node
 cd ~/.local/share/Icons8/Lunacy/Plugins/smart-duplicate-node
 
 # Windows
-mkdir %APPDATA%\Icons8\Lunacy\Plugins\smart-duplicate-node
-cd %APPDATA%\Icons8\Lunacy\Plugins\smart-duplicate-node
+mkdir %LOCALAPPDATA%\Icons8\Lunacy\Plugins\smart-duplicate-node
+cd %LOCALAPPDATA%\Icons8\Lunacy\Plugins\smart-duplicate-node
 
 # macOS
 mkdir -p ~/Library/Application\ Support/Icons8/Lunacy/Plugins/smart-duplicate-node

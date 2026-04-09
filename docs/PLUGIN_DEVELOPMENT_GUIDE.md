@@ -11,7 +11,7 @@ Create your plugin in its own directory within Lunacy's plugins folder:
 **Plugin Directory Structure:**
 
 - **Linux**: `~/.local/share/Icons8/Lunacy/Plugins/your-plugin-name/plugin.jsonc`
-- **Windows**: `%APPDATA%\Icons8\Lunacy\Plugins\your-plugin-name\plugin.jsonc`
+- **Windows**: `%LOCALAPPDATA%\Icons8\Lunacy\Plugins\your-plugin-name\plugin.jsonc`
 - **macOS**: `~/Library/Application Support/Icons8/Lunacy/Plugins/your-plugin-name/plugin.jsonc`
 
 ## Plugin Lifecycle Modes
