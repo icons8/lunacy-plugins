@@ -183,12 +183,12 @@ await fetch('http://localhost:31415/showtoast', {
 
 ## Powered by Icons8
 
-Lunacy is made by **[Icons8](https://icons8.com?utm_source=github)** and ships with its full asset library — build plugins that search, place, and automate them on the canvas:
+Lunacy is made by **[Icons8](https://icons8.com?utm_source=github)** and ships with its full asset library. Build plugins that search, place, and automate Icons8 assets on the canvas:
 
-- **[1.5M+ icons](https://icons8.com/icons?utm_source=github)** — try [Glyph Neue](https://icons8.com/icons/glyph-neue?utm_source=github), [iOS 27](https://icons8.com/icons/ios?utm_source=github), [Liquid Glass](https://icons8.com/icons/liquid-glass?utm_source=github)
-- **[110,000+ illustrations](https://icons8.com/illustrations?utm_source=github)** — try [3D Stickle](https://icons8.com/illustrations/styles/3d-stickle?utm_source=github), [Cherry](https://icons8.com/illustrations/styles/cherry?utm_source=github), [3D Casual Life](https://icons8.com/illustrations/styles/3d-casual-life?utm_source=github)
+- **[1.5M+ icons](https://icons8.com/icons?utm_source=github)** - try [Glyph Neue](https://icons8.com/icons/glyph-neue?utm_source=github), [iOS 27](https://icons8.com/icons/ios?utm_source=github), [Liquid Glass](https://icons8.com/icons/liquid-glass?utm_source=github)
+- **[110,000+ illustrations](https://icons8.com/illustrations?utm_source=github)** - try [3D Stickle](https://icons8.com/illustrations/styles/3d-stickle?utm_source=github), [Cherry](https://icons8.com/illustrations/styles/cherry?utm_source=github), [3D Casual Life](https://icons8.com/illustrations/styles/3d-casual-life?utm_source=github)
 
-[Get Lunacy](https://icons8.com/lunacy?utm_source=github) — free.
+[Get Lunacy](https://icons8.com/lunacy?utm_source=github), free.
 
 ## License
 
