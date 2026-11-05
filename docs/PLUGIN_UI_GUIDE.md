@@ -3,6 +3,13 @@
 Complete guide to creating user interfaces for Lunacy plugins, including toast notifications,
 dynamic UI forms, and external applications.
 
+The UI protocol remains compatible with the new preview [Automation API v2](API_V2_REFERENCE.md).
+Use its [workflows](AUTOMATION_WORKFLOWS.md) for document, component, style and variable
+operations behind your UI. The [legacy reference](API_REFERENCE.md#plugin-ui-http-api)
+summarizes exact UI request/response and event shapes. UI values are strings; check
+the `success` property of UI responses as well as HTTP status, and re-register after
+each WebSocket handshake/reconnect.
+
 ## Table of Contents
 
 - [Toast Notifications](#toast-notifications)
@@ -37,7 +44,7 @@ await axios.post('http://localhost:31415/showtoast', {
 | Type | Icon | Use Case |
 |------|------|----------|
 | 0 | None | Neutral message |
-| 1 | Copy | Copy/Success operation |
+| 1 | Copy | Copy operation |
 | 2 | CheckDone | Completed successfully |
 | 3 | Document | Document-related |
 | 4 | Warning | Warning/Error |
@@ -214,7 +221,7 @@ Register plugin UI definition.
 }
 ```
 
-**Response:** `200 OK` with registered UI data
+**Response:** `200 OK` with `{"success":true,"message":"UI registered successfully"}`.
 
 ### POST /getpluginuivalues
 
@@ -279,7 +286,7 @@ Clean up and close UI.
 "my-plugin"
 ```
 
-**Response:** `200 OK`
+**Response:** `200 OK` with a `success`/`message` object. `success:false` means the plugin UI was not found.
 
 ---
 

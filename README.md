@@ -16,21 +16,30 @@ Lunacy plugins are external programs that interact with Lunacy via HTTP Automati
 - Build custom tools and utilities
 - Monitor design events in real-time
 
+Matching preview builds also expose document/page lifecycle, components and instances,
+shared styles, variables and themes, and authorized library discovery/import through
+Automation API v2. Check `/v2/get_session` for availability; these additions are not
+a claim that every currently installed release supports them.
+
 ## Quick Start
 
-### 1. Enable the API
+### 1. Find the plugin folder
 
-1. Open Lunacy
-2. Go to **AI → Model Context Protocol → MCP server enabled**
-3. Enable the checkbox
+Open Lunacy and choose **Help → Open App Data Folder**, then open/create its `Plugins`
+folder. This is the reliable location for your installed package.
 
 ### 2. Install a Plugin
 
-Download any plugin from this repository and place it in:
+Download a plugin from this repository and place its directory, including
+`plugin.jsonc` (or `plugin.json`), inside `Plugins`. Common locations include:
 
 - **Linux:** `~/.local/share/Icons8/Lunacy/Plugins/`
 - **Windows:** `%LOCALAPPDATA%\Icons8\Lunacy\Plugins\`
 - **macOS:** `~/Library/Application Support/Icons8/Lunacy/Plugins/`
+
+Locations can vary with packaging. A valid installed plugin starts the local API
+automatically. For standalone development, enable **AI → Model Context Protocol →
+MCP server enabled** without installing a plugin.
 
 ### 3. Run Your First Plugin
 
@@ -47,8 +56,11 @@ See the [Quick Start Guide](./docs/QUICK_START.md) for detailed instructions.
 
 - **[Quick Start Guide](./docs/QUICK_START.md)** - Your first plugin in 5 minutes
 - **[Quick Start UI Guide](./docs/QUICK_START_UI.md)** - Complete UI plugin tutorial
-- **[Development Guide](./docs/PLUGIN_DEVELOPMENT_GUIDE.md)** - Complete API reference
-- **[API Reference](./docs/API_REFERENCE.md)** - All endpoints and data types
+- **[Development Guide](./docs/PLUGIN_DEVELOPMENT_GUIDE.md)** - Manifests, processes and plugin lifecycle
+- **[Automation API v2 Reference](./docs/API_V2_REFERENCE.md)** - All 26 new HTTP methods, actions, types and limits
+- **[Automation Workflows](./docs/AUTOMATION_WORKFLOWS.md)** - Discovery, guarded batches, readback and recovery
+- **[v2 Request Schemas](./docs/schemas/README.md)** - Complete machine-readable HTTP request contracts
+- **[Legacy API Reference](./docs/API_REFERENCE.md)** - Layers, images, export, events and UI
 - **[Plugin UI Guide](./docs/PLUGIN_UI_GUIDE.md)** - Building interactive interfaces
 - **[Best Practices](./docs/BEST_PRACTICES.md)** - Patterns and recommendations
 - **[Troubleshooting](./docs/TROUBLESHOOTING.md)** - Common issues and solutions
@@ -111,13 +123,18 @@ Write plugins in any language:
 ### API Capabilities
 
 - Layer operations (create, update, delete, duplicate)
-- Selection management
+- Reading selection and editing selected layers
 - Multi-format export (PNG, SVG, PDF, JPG, WEBP, TIFF, ICO)
 - Screenshots and viewport access
 - Undo/redo support
 - Toast notifications
 - Interactive UI system
 - Real-time WebSocket events
+- Document/tab/page lifecycle and explicit document targeting (v2 preview)
+- Component definitions, properties, states and instances (v2 preview)
+- Shared color/text/effect/guide styles and variable bindings (v2 preview)
+- Collections, themes, aliases and layer theme evaluation (v2 preview)
+- Authorized library discovery, import and refresh (v2 preview)
 
 ## Community Plugins
 
@@ -149,7 +166,7 @@ await fetch('http://localhost:31415/showtoast', {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
         text: 'Plugin completed!',
-        iconType: 1  // Success
+        iconType: 2  // CheckDone
     })
 });
 ```

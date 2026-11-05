@@ -2,6 +2,12 @@
 
 Practical guidelines and patterns for building robust, performant, and maintainable Lunacy plugins.
 
+For new document/design-system work, use the preview [v2 reference](API_V2_REFERENCE.md)
+and [guarded workflows](AUTOMATION_WORKFLOWS.md). The older layer examples below do
+not define v2 identities or nullable fields. Treat returned IDs/handles as opaque,
+and follow the [published FREE specification](https://github.com/icons8/free) for
+saved-document values rather than applying a blanket rule to every API field.
+
 ## Table of Contents
 
 - [Understanding FREE Format](#understanding-free-format)
