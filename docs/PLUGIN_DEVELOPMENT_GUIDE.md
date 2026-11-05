@@ -1,6 +1,8 @@
 # Lunacy Plugin Development Guide
 
-A comprehensive guide for developing Lunacy plugins using the HTTP Automation API.
+A guide to plugin manifests, external processes, lifecycle and the legacy HTTP API. For the new preview operations, use the [Automation API v2 reference](API_V2_REFERENCE.md), [request schemas](schemas/README.md), and [worked workflows](AUTOMATION_WORKFLOWS.md). The [legacy reference](API_REFERENCE.md) is the endpoint/event/UI contract index.
+
+Find the installed plugin directory with **Help → Open App Data Folder → Plugins**. Paths below are common package-dependent examples. Valid installed plugins start the local API automatically; standalone development can enable the MCP server setting. Probe `/v2/get_session` before using build-specific additions.
 
 ## Quick Start
 
@@ -80,8 +82,6 @@ Lunacy supports two distinct plugin lifecycle modes:
       "args": ["pause.py"],
       "timeoutMs": 3000
     }
-  ]
-}
   ]
 }
 ```
@@ -215,8 +215,8 @@ Fired when document lifecycle changes (open, close, activate, deactivate).
 
 - Document tab becomes active
 - Document tab becomes inactive (switching tabs)
-- Document opens (future)
-- Document closes (future)
+- Document opening/opened
+- Document closing/closed
 
 **JSON Structure:**
 
@@ -224,7 +224,7 @@ Fired when document lifecycle changes (open, close, activate, deactivate).
 {
   "type": "document",
   "timestamp": "2024-01-15T10:30:00.000Z",
-  "document_type": "activated|deactivated",
+  "document_type": "opening|opened|closing|closed|activated|deactivated",
   "document_id": "string",
   "document_name": "string",
   "document_path": "string"
@@ -407,10 +407,10 @@ async function connectToWebSocket() {
 | Endpoint | Method | Purpose | Response |
 |----------|--------|---------|----------|
 | `/getselected` | GET | Get selected layers | JSON (single layer or array) |
-| `/getcomponents` | GET | Get components | JSON array |
-| `/getimage` | GET | Get image by ID | Binary image data |
+| `/getcomponents` | POST | Get components by ID array | FREE object/array |
+| `/getimage` | POST | Get image by `{imageId,format?}` | Binary image data |
 | `/getviewportinfo` | GET | Get viewport info | String with coordinates |
-| `/getundostack` | GET | Get undo history | JSON array |
+| `/getundostack` | POST | Get undo history; plain-text positive count body | Native text |
 
 ### Screenshots  
 
@@ -431,7 +431,7 @@ async function connectToWebSocket() {
 
 | Endpoint | Method | Purpose | Request Body | Response |
 |----------|--------|---------|--------------|----------|
-| `/setselected` | POST | Change selection | FREE layers array (JSON) | Success/error message |
+| `/setselected` | POST | Edit already selected layers | FREE layers array (JSON) | Success/error message |
 | `/updatelayers` | POST | Update existing layers | FREE layers array (JSON) | Success/error message |
 | `/createlayers` | POST | Create new layers | LayersJsonRequest | Success/error message |
 | `/deletelayers` | POST | Delete layers | String array (layer IDs) | Success/error message |
@@ -468,7 +468,7 @@ async function connectToWebSocket() {
 
 #### Export Response Format
 
-Export returns JSON with byte array file data:
+Export returns JSON whose `data` field is a base64 string of file bytes:
 
 ```jsonc
 [
@@ -476,7 +476,7 @@ Export returns JSON with byte array file data:
     "layerId": "abc123",
     "fileName": "artboard.png", 
     "contentType": "image/png",
-    "data": [137, 80, 78, 71, 13, 10, 26, 10, ...]  // byte array
+    "data": "<base64-encoded-file-bytes>"
   }
 ]
 ```
@@ -561,7 +561,7 @@ All field names use **camelCase** format.
 **Format**: Array of FREE format layers (or single layer for one item)
 **Usage:**
 
-- **`/setselected`**: Replaces current selection with provided layers
+- **`/setselected`**: Edits/replaces existing selected layers by ID; requires a nonempty selection. It does not select arbitrary IDs or clear selection with `[]`.
 - **`/updatelayers`**: Updates existing layers by their IDs with new properties
 
 #### CreateLayersRequest (POST `/createlayers` only)
@@ -683,21 +683,21 @@ All field names use **camelCase** format.
 - `layerId` - ID of exported layer
 - `fileName` - Generated filename for export
 - `contentType` - MIME type of exported file
-- `data` - Byte array with file content (automatically converted to Buffer in Node.js)
+- `data` - Base64 string of file bytes; decode explicitly, e.g. `Buffer.from(result.data, 'base64')` in Node.js.
 
 #### DuplicateLayersResponse (from `/duplicatelayers`)
 
 ```json
 {
-  "DuplicatedLayerIds": ["new-id-1", "new-id-2"],
-  "Message": "Duplicated 2 layers successfully"
+  "duplicatedLayerIds": ["new-id-1", "new-id-2"],
+  "message": "Duplicated 2 layers successfully"
 }
 ```
 
 **Fields:**
 
-- `DuplicatedLayerIds` - Array of IDs for newly created duplicate layers
-- `Message` - Status message describing the operation result
+- `duplicatedLayerIds` - Array of IDs for newly created duplicate layers
+- `message` - Status message describing the operation result
 
 **Usage**: Returns IDs of duplicated layers for subsequent operations
 
@@ -1456,9 +1456,9 @@ curl -X POST http://localhost:31415/export \
 
 **"Export files corrupted"**
 
-- Export data is byte array, not string
-- In Node.js: `Buffer.from(result.data)`
-- In Python: `bytes(result["data"])`
+- Export JSON `data` is a base64 string of file bytes
+- In Node.js: `Buffer.from(result.data, 'base64')`
+- In Python: `base64.b64decode(result["data"])` after importing `base64`
 - In C#: `result.Data` is already `byte[]`
 
 **"Plugin not in menu"**
@@ -1501,10 +1501,10 @@ curl http://localhost:31415/getviewportinfo
 curl -X POST http://localhost:31415/getscreenshotviewport --output viewport.png
 
 # Get components
-curl http://localhost:31415/getcomponents | jq
+curl -X POST http://localhost:31415/getcomponents -H 'Content-Type: application/json' -d '["<component-id>"]' | jq
 
 # Get undo stack
-curl http://localhost:31415/getundostack | jq
+curl -X POST http://localhost:31415/getundostack -H 'Content-Type: text/plain' --data '20'
 
 # Test export endpoint (ExportRequest)
 curl -X POST http://localhost:31415/export \
@@ -1551,7 +1551,7 @@ node my-plugin.js /tmp PNG
 ## 📋 Best Practices
 
 1. **Handle both single layers and arrays** from selection API
-2. **Handle export data as byte arrays** (not base64 strings)
+2. **Decode export data from base64** before writing file bytes
 3. **Check for empty selections** before processing
 4. **Create output directories** if they don't exist
 5. **Provide clear error messages** and exit codes

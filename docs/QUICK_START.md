@@ -8,16 +8,24 @@ This guide will help you create and run your first Lunacy plugin in just a few m
 - **One of:** Node.js 14+, Python 3.6+, or .NET SDK 8.0+
 - Text editor (VS Code, Sublime, etc.)
 
-## Step 0: Enable Automation API (Critical!)
+## Step 0: Start the Automation API
 
-**Before you start**, you must enable the Automation API in Lunacy:
+An installed valid plugin starts the local API automatically. To try standalone
+requests before installing a plugin, enable it manually:
 
 1. Open Lunacy
 2. Go to menu: **AI → Model Context Protocol**
 3. Enable the **"MCP server enabled"** checkbox
 4. The server will start automatically on `http://localhost:31415`
 
-**Note:** The server will auto-enable when you add your first plugin, but it's recommended to enable it manually first.
+The default port is `31415`; use the application's actual port if it selected a
+later available one. Find the actual plugin folder with **Help → Open App Data
+Folder → Plugins**; package-specific paths below are common examples.
+
+For document/component/style/variable/library methods, continue with the
+[v2 workflows](AUTOMATION_WORKFLOWS.md) and [reference](API_V2_REFERENCE.md).
+Those additions require a matching preview build and are discovered with
+`/v2/get_session`; the basic examples below use the legacy API.
 
 **Test the API is running:**
 

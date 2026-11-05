@@ -540,17 +540,18 @@ if (verification.data.length !== layerIds.length) {
 **Solution:**
 
 ```javascript
-// WRONG - Treating byte array as string
-const data = result.data.toString();
+// WRONG - Writing the encoded string as file content
+fs.writeFileSync(filename, result.data);
 
-// CORRECT - Handle as Buffer
-const buffer = Buffer.from(result.data);
+// CORRECT - Decode the JSON base64 field
+const buffer = Buffer.from(result.data, 'base64');
 fs.writeFileSync(filename, buffer);
 ```
 
 ```python
 # CORRECT - Python
-file_data = bytes(result["data"])
+import base64
+file_data = base64.b64decode(result["data"])
 with open(filename, "wb") as f:
     f.write(file_data)
 ```
@@ -1309,17 +1310,17 @@ if (layers.length === 0 || !layers[0]._t) {
 
 ### Q: Export files are corrupted or empty
 
-**A:** Export data is byte array, not base64 string.
+**A:** Export JSON `data` is a base64 string. Decode it before writing file bytes.
 
 **Solution:**
 
 ```javascript
 // Node.js
-const buffer = Buffer.from(result.data);
+const buffer = Buffer.from(result.data, 'base64');
 fs.writeFileSync(filename, buffer);
 
 // Python
-file_data = bytes(result["data"])
+file_data = base64.b64decode(result["data"])  # import base64 first
 ```
 
 ### Q: Service plugin stops working after a while
